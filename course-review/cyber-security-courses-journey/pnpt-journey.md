@@ -1,4 +1,5 @@
 ---
+hidden: true
 metaLinks:
   alternates:
     - >-
@@ -15,7 +16,7 @@ In early October 2021, I passed my first practical penetration testing exam on T
 
 ## Introduction
 
-Before releasing the PNPT exam and courses, I had learned from **The Cyber Mentor** channel and there is a series of videos called <mark style="color:red;">**"Zero to Hero Pentesting"**</mark>.&#x20;
+Before releasing the PNPT exam and courses, I had learned from **The Cyber Mentor** channel and there is a series of videos called <mark style="color:red;">**"Zero to Hero Pentesting"**</mark>.
 
 Youtube playlist: [https://www.youtube.com/watch?v=qlK174d\_uu8\&list=PLLKT\_\_MCUeiwBa7d7F\_vN1GUwz\_2TmVQj](https://www.youtube.com/watch?v=qlK174d_uu8\&list=PLLKT__MCUeiwBa7d7F_vN1GUwz_2TmVQj)
 
@@ -31,7 +32,7 @@ Youtube Playlist: [https://www.youtube.com/watch?v=qSnPayW6F7U\&list=PLLKT\_\_MC
 
 ## About Course
 
-By 2021, I've seen some people doing reviews on the PNPT exam and courses. Without any further, I've enrolled in PNPT Exam with training as it contained 5 courses.&#x20;
+By 2021, I've seen some people doing reviews on the PNPT exam and courses. Without any further, I've enrolled in PNPT Exam with training as it contained 5 courses.
 
 * [Practical Ethical Hacking](https://academy.tcm-sec.com/p/practical-ethical-hacking-the-complete-course)
 * [Linux Privilege Escalation for Beginners](https://academy.tcm-sec.com/p/linux-privilege-escalation)
@@ -41,22 +42,22 @@ By 2021, I've seen some people doing reviews on the PNPT exam and courses. Witho
 
 <figure><img src="../../.gitbook/assets/image (637).png" alt=""><figcaption></figcaption></figure>
 
-**PEH:** Since I have followed his youtube channel, I'm familiar with course content but still there are new topics and content updated as well.&#x20;
+**PEH:** Since I have followed his youtube channel, I'm familiar with course content but still there are new topics and content updated as well.
 
 **Windows / Linux Privilege Escalation:** This one not just prepared me for PNPT, but it help me a lot for my future course as I have concepts from the courses.
 
 **OSINT:** Sock Puppets? This one is my favorite course and I realized the internet is a scary place :joy:
 
-**External Pentest Playbook:** This course had been defined with a clear objective for external attack infrastructure.&#x20;
+**External Pentest Playbook:** This course had been defined with a clear objective for external attack infrastructure.
 
-* <mark style="color:red;">"Low chance of RCE, High chance of weak passwords"</mark>&#x20;
+* <mark style="color:red;">"Low chance of RCE, High chance of weak passwords"</mark>
 * <mark style="color:red;">"Don't start web app assessment when you're focusing on external infrastructure"</mark>
 * <mark style="color:red;">"If you find XSS, how are you gonna branch into the internal network??"</mark>
 * <mark style="color:red;">"If you see the login portal, you could try SQL injection to see if you can breach the website."</mark>
 
 After completing those 5 courses, I enrolled in extra one as [<mark style="color:red;">**Movement, Pivoting, and Persistence**</mark>](https://academy.tcm-sec.com/p/movement-pivoting-and-persistence-for-pentesters-and-ethical-hackers). That one contained a C2 framework, Email Phishing, Port Forwarding, and more.
 
-All of the courses are affordable at just **29.99$** and they always offer Coupon discounts. Anyway, if you still thinking about the price, he also shares the course content on his youtube channel as well.&#x20;
+All of the courses are affordable at just **29.99$** and they always offer Coupon discounts. Anyway, if you still thinking about the price, he also shares the course content on his youtube channel as well.
 
 Youtube Channel: [https://www.youtube.com/@TCMSecurityAcademy/featured](https://www.youtube.com/@TCMSecurityAcademy/featured)
 
@@ -74,12 +75,12 @@ On exam day, I received a VPN package and Role of Engagement from TCM.
 
 As we have 5 full days to perform penetration testing on the exam environment and 2 days for doing report. By this, you don't need to stay awake and stress out about the time.
 
-On the engagement letter, we have a Penetration Test scope and some actions are out of scope which clearly defines the objective.&#x20;
+On the engagement letter, we have a Penetration Test scope and some actions are out of scope which clearly defines the objective.
 
 As I couldn't expose what is going on in the exam but it's the same as what they mentioned.
 
-* Perform OSINT to gather information on the target&#x20;
-* Perform external penetration testing&#x20;
+* Perform OSINT to gather information on the target
+* Perform external penetration testing
 * Leveraging into network, lateral and vertical network movement
 * Ultimately compromise the exam domain controller
 
@@ -87,9 +88,9 @@ Then we have to do a report on all finding items and submit the report via email
 
 <figure><img src="../../.gitbook/assets/image (651).png" alt=""><figcaption></figcaption></figure>
 
-Finally, the debriefing part for 15 minutes with Heath on finding items. It was really good for me as it was my first time debriefing my report and he also gave advice on Reporting style and debriefing as well.&#x20;
+Finally, the debriefing part for 15 minutes with Heath on finding items. It was really good for me as it was my first time debriefing my report and he also gave advice on Reporting style and debriefing as well.
 
-Once you have cleared all the processes, he will generate the certificate for you and invite you to a private group on discord for PNPT candidates.&#x20;
+Once you have cleared all the processes, he will generate the certificate for you and invite you to a private group on discord for PNPT candidates.
 
 <figure><img src="../../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
 
