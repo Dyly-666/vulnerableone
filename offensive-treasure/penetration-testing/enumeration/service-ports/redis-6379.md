@@ -16,7 +16,7 @@ NoAuth Require
 
 We need to find password to connect which stored in <mark style="color:red;">**/etc/redis/redis.conf**</mark> file
 
-<figure><img src="../../../../.gitbook/assets/image (233).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (231).png" alt=""><figcaption></figcaption></figure>
 
 ```basic
 └─$ redis-cli -h 10.10.10.10
