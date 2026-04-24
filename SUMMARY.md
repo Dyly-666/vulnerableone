@@ -118,6 +118,7 @@
     * [VBA](offensive-treasure/red-team/execution/vba.md)
     * [Web Shell](offensive-treasure/red-team/execution/web-shell.md)
     * [WSH](offensive-treasure/red-team/execution/wsh.md)
+    * [HTML Smuggling](offensive-treasure/red-team/execution/html-smuggling.md)
   * [Persistence](offensive-treasure/red-team/persistence/README.md)
     * [Logon Script](offensive-treasure/red-team/persistence/logon-script.md)
     * [Startup Folder](offensive-treasure/red-team/persistence/startup-folder.md)
