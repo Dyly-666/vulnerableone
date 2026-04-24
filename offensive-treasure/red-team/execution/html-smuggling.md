@@ -1,5 +1,15 @@
 # HTML Smuggling
 
+### &#x20; How HTML Smuggling Works
+
+<figure><img src="../../../.gitbook/assets/Screenshot 2026-04-24 at 1.37.15 in the afternoon.png" alt=""><figcaption></figcaption></figure>
+
+### Browser Compatibility
+
+
+
+<figure><img src="../../../.gitbook/assets/Screenshot 2026-04-24 at 1.38.08 in the afternoon.png" alt=""><figcaption></figcaption></figure>
+
 ### Start our apache 2
 
 ```jsx
