@@ -1,4 +1,7 @@
 ---
+description: >-
+  The ASREPRoast attack looks for users without Kerberos pre-authentication
+  required.
 metaLinks:
   alternates:
     - >-
@@ -8,8 +11,6 @@ metaLinks:
 # ASREPRoasting
 
 ## Discovery ASREP account
-
-BloodyAD
 
 {% code overflow="wrap" %}
 ```bash

