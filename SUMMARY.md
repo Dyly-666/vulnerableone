@@ -77,6 +77,7 @@
     * [WriteDACL](offensive-treasure/ad-attack/abuse-acls/writedacl.md)
     * [ForceChangePassword](offensive-treasure/ad-attack/abuse-acls/forcechangepassword.md)
     * [Write Login Script Path](offensive-treasure/ad-attack/abuse-acls/write-login-script-path.md)
+    * [Protected Users Group Restriction bypass](offensive-treasure/ad-attack/abuse-acls/protected-users-group-restriction-bypass.md)
   * [Kerberos Attack](offensive-treasure/ad-attack/kerberos-attack/README.md)
     * [Kerberoasting](offensive-treasure/ad-attack/kerberos-attack/kerberoasting.md)
     * [ASREPRoasting](offensive-treasure/ad-attack/kerberos-attack/asreproasting.md)
