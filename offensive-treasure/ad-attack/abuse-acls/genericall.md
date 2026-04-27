@@ -11,6 +11,14 @@ metaLinks:
 
 ### Reset Password
 
+BloodyAD
+
+{% code overflow="wrap" %}
+```bash
+bloodyAD --host $dc -d $domain -u $username -p $password set password $target_username $new_password
+```
+{% endcode %}
+
 {% code title="AD-Module" %}
 ```powershell
 # Net Command
