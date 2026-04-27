@@ -9,6 +9,14 @@ metaLinks:
 
 ## ForceChangePassword
 
+BloodyAD
+
+{% code overflow="wrap" %}
+```bash
+bloodyAD --host $dc -d $domain -u $username -p $password set password $target_username $new_password
+```
+{% endcode %}
+
 ### 1st Method
 
 {% code title="AD-Module" overflow="wrap" %}
