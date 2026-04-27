@@ -13,6 +13,18 @@ Login with Windows-Auth
 └─$ impacket-mssqlclient vulnableone.local/khan.chanthou@10.10.10.10 -windows-auth
 ```
 
+## \`\`\`
+
+```
+# Show DB
+SQL (GRANDSTAY\michael.brown  guest@master)> enum_db
+# Use DB
+SQL (GRANDSTAY\michael.brown  guest@master)> use GRANDSTAY;
+# Get Information
+SQL (<SNIP>)> select * from IT_Information;
+
+```
+
 ## First Instance
 
 ```sql
