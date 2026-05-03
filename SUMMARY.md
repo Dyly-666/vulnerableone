@@ -178,3 +178,4 @@
       * [Window](offensive-treasure/red-team/lateral-movement/pivoting/window.md)
 * [Web Application](offensive-treasure/web-application/README.md)
   * [Basic Recon](offensive-treasure/web-application/basic-recon.md)
+* [Methodology](offensive-treasure/methodology.md)
