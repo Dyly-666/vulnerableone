@@ -34,13 +34,13 @@ Copy
 rustscan -b 500 -a novacart.hsm --top -- -sC -sV -Pn
 ```
 
-![](../../../.gitbook/assets/image)
+![](<../../../.gitbook/assets/image (7)>)
 
 The target `10.0.20.22` is a Windows-based Domain Controller. It hosts a Microsoft IIS 10.0 web server on port `80` (serving the "NovaCart | Premium PC Components & Gaming Systems" site), as well as an additional web service on port `5000` (IIS, NTLM-authenticated). DNS is exposed on port `53` and Kerberos on port `88`, confirming the host's role as an Active Directory DC for the domain `novacart.local`. LDAP and LDAPS services are available on ports `389`, `636`, `3268`, and `3269`. SMB is exposed via ports `139` and `445` with message signing enabled and required. Remote management and access are available through RDP on port `3389` and WinRM on port `5985`. The host also exposes a .NET Message Framing service on port `9389`, RPC over HTTP on ports `593` and `49676`, and several MSRPC endpoints on ports `135`, `49664`, `49665`, `49666`, `49667`, `49668`, `49673`, `49677`, `49696`, `49703`, and `49719`.
 
-![](<../../../.gitbook/assets/image (1)>)
+![](<../../../.gitbook/assets/image (1) (1)>)
 
-![](<../../../.gitbook/assets/image (2)>)
+![](<../../../.gitbook/assets/image (2) (1)>)
 
 #### [hashtag](novacart-or-writeups.md#http-80) HTTP 80
 
@@ -52,7 +52,7 @@ Copy
 http://novacart.local/
 ```
 
-![](<../../../.gitbook/assets/image (3)>)
+![](<../../../.gitbook/assets/image (3) (1)>)
 
 We visit every single page and find a search bar on the shop page.
 
@@ -62,7 +62,7 @@ Copy
 http://novacart.local/shop.aspx
 ```
 
-![](<../../../.gitbook/assets/image (4)>)
+![](<../../../.gitbook/assets/image (4) (1)>)
 
 We test for SQL injection using the payload `'` and receive an error. This is a strong indication that the site is vulnerable to SQL injection.
 
@@ -72,7 +72,7 @@ Copy
 http://novacart.local/search.aspx?q='
 ```
 
-![](<../../../.gitbook/assets/image (5)>)
+![](<../../../.gitbook/assets/image (5) (1)>)
 
 We are attempting to confirm our assumption using the following two payloads.
 
@@ -86,7 +86,7 @@ Copy
 http://novacart.local/search.aspx?q='+AND+1=2+--+-
 ```
 
-![](<../../../.gitbook/assets/image (6)>)
+![](<../../../.gitbook/assets/image (6) (1)>)
 
 But with the next, we do get all the results confirming SQL injection. We keep that in mind, since we will will initially enumerate each service first.
 
@@ -96,7 +96,7 @@ Copy
 http://novacart.local/search.aspx?q='+AND+1=2+--+-
 ```
 
-![](<../../../.gitbook/assets/image (7)>)
+![](<../../../.gitbook/assets/image (7) (1)>)
 
 #### [hashtag](novacart-or-writeups.md#http-5000) HTTP 5000
 
