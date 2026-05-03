@@ -183,4 +183,3 @@
   * [ChecklistChecklist](offensive/nothing/checklistchecklist.md)
   * [Lab](offensive/nothing/lab/README.md)
     * [NovaCart | Writeups](offensive/nothing/lab/novacart-or-writeups.md)
-    * [Page 1](offensive/nothing/lab/page-1.md)

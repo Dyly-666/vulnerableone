@@ -1,6 +1,6 @@
 # ChecklistChecklist
 
-## OSEP Penetration Testing Checklist
+## Penetration Testing Checklist
 
 ***
 
