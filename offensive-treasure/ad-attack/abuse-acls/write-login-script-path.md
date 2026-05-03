@@ -6,7 +6,7 @@ bloodyAD -u 'steve.smith' -p 'Msmith08' -d 'grandstay.local' --host 192.168.178.
 ```
 {% endcode %}
 
-<figure><img src="../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 **1. We start a listener**
 
@@ -44,4 +44,4 @@ bloodyAD -d grandstay.local -u steve.smith -p 'Msmith08' --host 192.168.178.187 
 
 **After a few Seconds we get a shell as Chuck.wills**
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>

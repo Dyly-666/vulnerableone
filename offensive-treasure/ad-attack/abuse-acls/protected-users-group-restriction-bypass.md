@@ -4,7 +4,7 @@
 
 Since our user is a member of the Protected Users group, NTLM authentication cannot be used and delegation is not possible. Additionally, the password appears to be outdated (ending in 2025), so we try the 2026 variant. We then use the -k flag to authenticate via Kerberos instead.
 
-<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```bash

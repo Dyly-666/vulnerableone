@@ -90,6 +90,7 @@
     * [PowerUpSQL](offensive-treasure/ad-attack/ms-sql-servers/powerupsql.md)
     * [SQL Server Management](offensive-treasure/ad-attack/ms-sql-servers/sql-server-management.md)
     * [Impacket-MSSQL](offensive-treasure/ad-attack/ms-sql-servers/impacket-mssql.md)
+  * [JEA](offensive-treasure/ad-attack/jea.md)
 * [🥷 Red Team](offensive-treasure/red-team/README.md)
   * [Reconnaissance](offensive-treasure/red-team/reconnaissance/README.md)
     * [Active Scanning](offensive-treasure/red-team/reconnaissance/active-scanning/README.md)
