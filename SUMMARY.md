@@ -79,6 +79,7 @@
     * [Write Login Script Path](offensive-treasure/ad-attack/abuse-acls/write-login-script-path.md)
     * [Protected Users Group Restriction bypass](offensive-treasure/ad-attack/abuse-acls/protected-users-group-restriction-bypass.md)
     * [Own](offensive-treasure/ad-attack/abuse-acls/own.md)
+    * [WriteOwner](offensive/ad-attack/abuse-acls/writeowner.md)
   * [Kerberos Attack](offensive-treasure/ad-attack/kerberos-attack/README.md)
     * [Kerberoasting](offensive-treasure/ad-attack/kerberos-attack/kerberoasting.md)
     * [ASREPRoasting](offensive-treasure/ad-attack/kerberos-attack/asreproasting.md)
