@@ -183,6 +183,6 @@
   * [ChecklistChecklist](offensive/nothing/checklistchecklist.md)
   * [Writeups](offensive/nothing/writeups/README.md)
     * [NovaCart | Writeups](offensive/nothing/writeups/novacart-or-writeups.md)
-    * [StellarComms | Writeups](offensive/nothing/writeups/stellarcomms-or-writeups.md)
     * [404 Bank | Writeups](offensive/nothing/writeups/404-bank-or-writeups.md)
     * [City Council | Writeups](offensive/nothing/writeups/city-council-or-writeups.md)
+    * [StellarComms | Writeups](offensive/nothing/writeups/stellarcomms-or-writeups.md)
