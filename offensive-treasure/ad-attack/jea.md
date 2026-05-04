@@ -24,7 +24,7 @@ Minimize privileges and reduce the attack surface by granting only the access th
 
 **We see JEA is installed (c.roberts shell via winrm)**
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
 
 We review JEA configuration
 
@@ -34,7 +34,7 @@ cat C:\ProgramData\JEA\JEA.pssc
 ```
 {% endcode %}
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../.gitbook/assets/Screenshot 2026-05-03 at 2.26.23 in the afternoon.png" alt=""><figcaption></figcaption></figure>
 
@@ -81,7 +81,7 @@ with RunspacePool(wsman, configuration_name="restricted") as pool:
 
 The endpoint returned only eight commands:
 
-<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../.gitbook/assets/Screenshot 2026-05-03 at 2.28.57 in the afternoon.png" alt=""><figcaption></figcaption></figure>
 

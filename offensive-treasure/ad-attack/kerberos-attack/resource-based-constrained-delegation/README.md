@@ -39,7 +39,7 @@ impersonating Administrator → VICTIM-PC$
 PSExec / WinRM in as Administrator 🎉
 ```
 
-<figure><img src="../../../../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (4) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Terence.white have WriteAccountRestrictions
 
@@ -55,7 +55,7 @@ nxc ldap 192.168.178.187 -u 'alex.turner' -p 'alex1988' -M maq
 ```
 {% endcode %}
 
-<figure><img src="../../../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
 We check for pre-Windows 2000 accounts
 
@@ -65,7 +65,7 @@ nxc ldap 192.168.178.187 -u 'alex.turner' -p 'alex1988' -M pre2k
 ```
 {% endcode %}
 
-<figure><img src="../../../../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
 
 We configure RBCD on the domain controller
 

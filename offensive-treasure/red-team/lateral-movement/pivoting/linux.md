@@ -7,6 +7,70 @@ metaLinks:
 
 # Linux
 
+### Ligolo-MP
+
+Started a Ligolo-MP server listener on port 11601.
+
+{% code overflow="wrap" %}
+```bash
+sudo ligolo-mp server -laddr 0.0.0.0:11601
+```
+{% endcode %}
+
+Push Enter/Connect
+
+<figure><img src="../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+{% code overflow="wrap" %}
+```
+Push CTRL+N to create new Agent (use TAB for switch to new Linie)
+Use you tun0 IP
+Activate Ignore env proxy
+OS= Windwos ARCH=amd64
+Then Submit
+```
+{% endcode %}
+
+<figure><img src="../../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+
+The tool create agent.bin File
+
+<figure><img src="../../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+
+Move to exe
+
+{% code overflow="wrap" %}
+```
+mv agent.bin agent.exe
+```
+{% endcode %}
+
+We Upload agent.exe (in our evil-winrm session)
+
+We start agent.exe (in background)
+
+{% code overflow="wrap" %}
+```bash
+Start-Process .\agent.exe -WindowStyle Hidden
+```
+{% endcode %}
+
+Then we see in ligolo that we got a Session
+
+<figure><img src="../../../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+
+**Push Enter Add route**
+
+<figure><img src="../../../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+
+We add the Route 192.168.2.0/24
+
+<figure><img src="../../../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (20).png" alt=""><figcaption></figcaption></figure>
+
+
+
 ### Local Port Forwarding
 
 <pre class="language-bash"><code class="lang-bash"><strong>kali$ ssh -L 8000:10.10.10.10:80 user@10.10.0.5 -fN
