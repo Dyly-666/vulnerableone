@@ -99,6 +99,7 @@
     * [Over Pass The Hash](offensive/ad-attack/use-alternate-authentication-material/over-pass-the-hash.md)
     * [Extract Tickets](offensive/ad-attack/use-alternate-authentication-material/extract-tickets.md)
     * [Pass The Ticket](offensive/ad-attack/use-alternate-authentication-material/pass-the-ticket.md)
+  * [ADCS](offensive/ad-attack/adcs.md)
 * [🥷 Red Team](offensive-treasure/red-team/README.md)
   * [Reconnaissance](offensive-treasure/red-team/reconnaissance/README.md)
     * [Active Scanning](offensive-treasure/red-team/reconnaissance/active-scanning/README.md)
