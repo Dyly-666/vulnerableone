@@ -23,3 +23,12 @@ If we want to disable it back
 bloodyAD --host DC-CC.city.local -d 'city.local' -u 'emma.hayes' -p '!Gemma4James!' add uac 'sam.brooks' -f ACCOUNTDISABLE                     
 ```
 {% endcode %}
+
+if accountExpires we can set it to never&#x20;
+
+{% code overflow="wrap" %}
+```bash
+bloodyAD -H 192.168.1.10 -d corp.local -u adminuser -p 'P@ssw0rd' \
+  set object john.doe accountExpires -v 9223372036854775807
+```
+{% endcode %}
