@@ -5,5 +5,5 @@ metaLinks:
       https://app.gitbook.com/s/qDX4NWkPelZggTpGCfyF/offensive-treasure/ad-attack
 ---
 
-# 🧙‍♂️ AD Attack
+# 🫨 AD Attack
 

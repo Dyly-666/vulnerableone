@@ -1,10 +1,10 @@
 # Table of contents
 
-* [🧘‍♂️ About Me](README.md)
+* [👻 About Me](README.md)
 
 ## Offensive
 
-* [🧌 Penetration Testing](offensive-treasure/penetration-testing/README.md)
+* [🤪 Penetration Testing](offensive-treasure/penetration-testing/README.md)
   * [Reconnaissance](offensive-treasure/penetration-testing/reconnaissance/README.md)
     * [Identify Ports/Hosts/Data](offensive-treasure/penetration-testing/reconnaissance/identify-ports-hosts-data.md)
   * [Enumeration](offensive-treasure/penetration-testing/enumeration/README.md)
@@ -66,7 +66,7 @@
     * [HTTP Method](offensive-treasure/penetration-testing/theory/http-method.md)
     * [Protocol](offensive-treasure/penetration-testing/theory/protocol.md)
     * [Common Ports](offensive-treasure/penetration-testing/theory/common-ports.md)
-* [🧙‍♂️ AD Attack](offensive-treasure/ad-attack/README.md)
+* [🫨 AD Attack](offensive-treasure/ad-attack/README.md)
   * [Domain Enumeration](offensive-treasure/ad-attack/domain-enumeration/README.md)
     * [PowerView](offensive-treasure/ad-attack/domain-enumeration/powerview.md)
     * [AD-Module](offensive-treasure/ad-attack/domain-enumeration/ad-module.md)

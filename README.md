@@ -2,7 +2,7 @@
 metaLinks: {}
 ---
 
-# 🧘‍♂️ About Me
+# 👻 About Me
 
 ## ⚠️ Disclaimer:
 
