@@ -1,5 +1,4 @@
 ---
-metaLinks: {}
 ---
 
 # 👻 About Me
