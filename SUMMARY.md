@@ -68,7 +68,7 @@
     * [Common Ports](offensive-treasure/penetration-testing/theory/common-ports.md)
 * [🫨 AD Attack](offensive-treasure/ad-attack/README.md)
   * [Domain Enumeration](offensive-treasure/ad-attack/domain-enumeration/README.md)
-    * [Nxc](offensive/ad-attack/domain-enumeration/nxc.md)
+    * [NetExec Cheatsheet](offensive/ad-attack/domain-enumeration/netexec-cheatsheet.md)
     * [PowerView](offensive-treasure/ad-attack/domain-enumeration/powerview.md)
     * [AD-Module](offensive-treasure/ad-attack/domain-enumeration/ad-module.md)
     * [Bloodhound](offensive-treasure/ad-attack/domain-enumeration/bloodhound.md)
