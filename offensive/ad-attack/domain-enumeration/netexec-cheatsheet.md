@@ -16,7 +16,7 @@ pipx install git+https://github.com/Pennyw0rth/NetExec
 ```
 {% endcode %}
 
-## We Enumerate Domain Users and Export the Results
+### We Enumerate Domain Users and Export the Results <a href="#bkmrk-basic-usage" id="bkmrk-basic-usage"></a>
 
 {% code overflow="wrap" %}
 ```bash
