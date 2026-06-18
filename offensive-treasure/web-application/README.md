@@ -38,7 +38,3 @@ Each topic page follows the same structure: how to spot it, how it works, how to
 
 * [IDOR](idor.md) — horizontal and vertical IDOR, mass assignment
 * [Race Conditions](race-conditions.md) — TOCTOU, concurrent request race, symlink race
-
-***
-
-_Maintained as a flat structure: one `.md` file per topic at repo root. See `SUMMARY.md` for the full GitBook navigation tree._
