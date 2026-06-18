@@ -82,6 +82,7 @@
     * [Own](offensive-treasure/ad-attack/abuse-acls/own.md)
     * [WriteOwner](offensive/ad-attack/abuse-acls/writeowner.md)
     * [Enable AD Account](offensive/ad-attack/abuse-acls/enable-ad-account.md)
+  * [BloodyAD](offensive/ad-attack/bloodyad.md)
   * [Kerberos Attack](offensive-treasure/ad-attack/kerberos-attack/README.md)
     * [Kerberoasting](offensive-treasure/ad-attack/kerberos-attack/kerberoasting.md)
     * [ASREPRoasting](offensive-treasure/ad-attack/kerberos-attack/asreproasting.md)

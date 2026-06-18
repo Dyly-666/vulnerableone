@@ -1,3 +1,10 @@
+---
+description: >-
+  ticket contents are encrypted with account password hashes. If you can get a
+  piece of ciphertext encrypted with a weak/crackable hash, you can crack it
+  offline with zero further interaction with the D
+---
+
 # Kerberos Authentication
 
 ## From Linux
