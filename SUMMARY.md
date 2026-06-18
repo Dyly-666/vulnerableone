@@ -184,7 +184,7 @@
     * [Pivoting](offensive-treasure/red-team/lateral-movement/pivoting/README.md)
       * [Linux](offensive-treasure/red-team/lateral-movement/pivoting/linux.md)
       * [Window](offensive-treasure/red-team/lateral-movement/pivoting/window.md)
-* [Web Application](offensive-treasure/web-application/README.md)
+* [🕸️ Web Application](offensive-treasure/web-application/README.md)
   * [Basic Recon](offensive-treasure/web-application/basic-recon.md)
 * [Nothing](offensive/nothing/README.md)
   * [Methodology](offensive-treasure/methodology.md)

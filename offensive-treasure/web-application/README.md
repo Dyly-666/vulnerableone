@@ -1,10 +1,15 @@
-# Web Application Pentest Cheatsheet
+---
+metaLinks:
+  alternates:
+    - >-
+      https://app.gitbook.com/s/qDX4NWkPelZggTpGCfyF/offensive-treasure/web-application
+---
 
-A personal reference for web application security testing — organized by phase, from
-**identifying** a vulnerability to **exploiting** it.
+# 🕸️ Web Application
 
-Each topic page follows the same structure: how to spot it, how it works, how to exploit it,
-how to fix it.
+A personal reference for web application security testing — organized by phase, from **identifying** a vulnerability to **exploiting** it.
+
+Each topic page follows the same structure: how to spot it, how it works, how to exploit it, how to fix it.
 
 ## Recon & Enumeration
 
@@ -34,6 +39,6 @@ how to fix it.
 * [IDOR](idor.md) — horizontal and vertical IDOR, mass assignment
 * [Race Conditions](race-conditions.md) — TOCTOU, concurrent request race, symlink race
 
----
+***
 
-*Maintained as a flat structure: one `.md` file per topic at repo root. See `SUMMARY.md` for the full GitBook navigation tree.*
+_Maintained as a flat structure: one `.md` file per topic at repo root. See `SUMMARY.md` for the full GitBook navigation tree._
