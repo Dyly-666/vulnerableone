@@ -24,6 +24,8 @@ This is just a list that says:
 
 If you can **write to this attribute** on a computer object → you can abuse RBCD.
 
+<figure><img src="../../../../.gitbook/assets/image (24).png" alt=""><figcaption></figcaption></figure>
+
 **The Attack Flow**
 
 ```bash

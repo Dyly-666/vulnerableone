@@ -21,7 +21,7 @@ bloodyAD --host dc2.pong.htb -d pong.htb -u 'c.roberts@ping.htb' -k \
 ```
 {% endcode %}
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 #### Step2: **Group Type Abuse**
 
@@ -42,7 +42,7 @@ The <mark style="color:$danger;">`groupType`</mark> attribute defines scope and 
 * <mark style="color:$danger;">`0x00000004`</mark> → DOMAIN\_LOCAL\_GROUP
 *   <mark style="color:$danger;">`0x00000008`</mark> → UNIVERSAL\_GROUP
 
-    <figure><img src="../../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
+    <figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 **Global → Universal (**<mark style="color:$danger;">`2147483640`</mark>)
 
@@ -72,7 +72,7 @@ bloodyAD -k --host dc2.pong.htb -d pong.htb -u c.roberts \add groupMember 'CN=gM
 ```
 {% endcode %}
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 **Why convert to Domain Local?**
 

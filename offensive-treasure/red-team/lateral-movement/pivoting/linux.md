@@ -19,7 +19,7 @@ sudo ligolo-mp server -laddr 0.0.0.0:11601
 
 Push Enter/Connect
 
-<figure><img src="../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```
@@ -31,11 +31,11 @@ Then Submit
 ```
 {% endcode %}
 
-<figure><img src="../../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 The tool create agent.bin File
 
-<figure><img src="../../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 Move to exe
 
@@ -68,8 +68,6 @@ We add the Route 192.168.2.0/24
 <figure><img src="../../../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../../../.gitbook/assets/image (20).png" alt=""><figcaption></figcaption></figure>
-
-
 
 ### Local Port Forwarding
 
