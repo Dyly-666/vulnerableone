@@ -1,4 +1,8 @@
 ---
+description: >-
+  Unconstrained delegation allows a service, here WEBSRV, to impersonate a user
+  when accessing any other service. This is a very permissive and dangerous
+  privilege, therefore, not any user can grant it.
 metaLinks:
   alternates:
     - >-
@@ -6,6 +10,12 @@ metaLinks:
 ---
 
 # Unconstrained Delegation
+
+<figure><img src="../../../.gitbook/assets/image (22).png" alt=""><figcaption></figcaption></figure>
+
+For an account to have an unconstrained delegation, on the `Delegation` tab of the account, the `Trust this computer for delegation to any service (Kerberos only)` option must be selected.
+
+## ![](<../../../.gitbook/assets/image (23).png>)
 
 ## Abuse from Windows System
 

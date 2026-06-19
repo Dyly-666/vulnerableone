@@ -72,7 +72,7 @@ bloodyAD -k --host dc2.pong.htb -d pong.htb -u c.roberts \add groupMember 'CN=gM
 ```
 {% endcode %}
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 **Why convert to Domain Local?**
 

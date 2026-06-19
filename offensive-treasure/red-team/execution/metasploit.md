@@ -9,9 +9,9 @@ metaLinks:
 
 ## Msfvenom
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2026-04-24 at 1.33.00 in the afternoon (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/Screenshot 2026-04-24 at 1.33.00 in the afternoon.png" alt=""><figcaption></figcaption></figure>
 
-#### &#x20;Why thread matters for Office:
+#### Why thread matters for Office:
 
 ```bash
   # BAD - This will close Word when shell exits

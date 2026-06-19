@@ -40,7 +40,7 @@ rustscan -b 500 -a 10.0.28.235 -- -sC -sV -Pn
 
 The target machine is actually a domain controller with exposed services including DNS `53`, Kerberos `88/464`, an `IIS /10.0` web server on port `80`, multiple MSRPC endpoints `135, 593, 49664+`, SMB `139/445`, LDAP and LDAPS `389/636/3268/3269` tied to Active Directory, RDP `3389`, WinRM on `5985`, and .NET Remoting `9389`. This indicates a fully integrated Windows AD environment where LDAP/LDAPS and Kerberos provide authentication, SMB and RPC enable remote management, and RDP/WinRM serve as remote access points.
 
-![](<../../../.gitbook/assets/image (199)>)
+![](<../../../.gitbook/assets/image (5)>)
 
 #### [hashtag](404-bank-or-writeups.md#web) WEB
 
@@ -52,7 +52,7 @@ Copy
 http://404finance.local/
 ```
 
-![](<../../../.gitbook/assets/image (200)>)
+![](<../../../.gitbook/assets/image (6)>)
 
 As we scroll through the page, we also find a team of three people.
 
@@ -130,7 +130,7 @@ hashcat -a0 -m0 'REDACTED' /usr/share/wordlists/rockyou.txt
 
 We have a password and a set of names from the team. What we still need are usernames to test the password against SMB or other available networks.
 
-[![Logo](<../../../.gitbook/assets/image (208)>)GitHub - urbanadventurer/username-anarchy: Username tools for penetration testingGitHubchevron-right](https://github.com/urbanadventurer/username-anarchy)
+[![Logo](<../../../.gitbook/assets/image (39)>)GitHub - urbanadventurer/username-anarchy: Username tools for penetration testingGitHubchevron-right](https://github.com/urbanadventurer/username-anarchy)
 
 We generate these using username anarchy.
 
@@ -180,7 +180,7 @@ We are able to identify `Administrator` as one of the Domain Admins.
 
 As `karl.hackerman`, we have `GenericWrite` permission over `tom.reboot`. With this, we can either perform a targeted Kerberoast attack to obtain a crackable service ticket, or carry out a shadow credentials attack, which would allow us to authenticate as tom.reboot without knowing their password like we did in Arasaka:
 
-[![Logo](<../../../.gitbook/assets/image (214)>)Arasaka | Writeups0xb0b.gitbook.iochevron-right](https://0xb0b.gitbook.io/writeups/hack-smarter-labs/2025/arasaka#shadow-credentials-attack)
+[![Logo](<../../../.gitbook/assets/image (103)>)Arasaka | Writeups0xb0b.gitbook.iochevron-right](https://0xb0b.gitbook.io/writeups/hack-smarter-labs/2025/arasaka#shadow-credentials-attack)
 
 ![](<../../../.gitbook/assets/image (215)>)
 
@@ -208,9 +208,9 @@ We will show both options.
 
 We'll start with the TargetedKerberoast. See below links for further reading:
 
-[![Logo](<../../../.gitbook/assets/image (217)>)Kerberoast | The Hacker Recipeswww.thehacker.recipeschevron-right](https://www.thehacker.recipes/ad/movement/kerberos/kerberoast#targeted-kerberoasting)
+[![Logo](<../../../.gitbook/assets/image (33)>)Kerberoast | The Hacker Recipeswww.thehacker.recipeschevron-right](https://www.thehacker.recipes/ad/movement/kerberos/kerberoast#targeted-kerberoasting)
 
-[![Logo](<../../../.gitbook/assets/image (217)>)Targeted Kerberoasting | The Hacker Recipeswww.thehacker.recipeschevron-right](https://www.thehacker.recipes/ad/movement/dacl/targeted-kerberoasting)
+[![Logo](<../../../.gitbook/assets/image (33)>)Targeted Kerberoasting | The Hacker Recipeswww.thehacker.recipeschevron-right](https://www.thehacker.recipes/ad/movement/dacl/targeted-kerberoasting)
 
 > This abuse can be carried out when controlling an object that has a `GenericAll`, `GenericWrite`, `WriteProperty` or `Validated-SPN` over the target. A member of the [Account Operatorarrow-up-right](https://www.thehacker.recipes/ad/movement/builtins/security-groups) group usually has those permissions.
 >
@@ -218,7 +218,7 @@ We'll start with the TargetedKerberoast. See below links for further reading:
 
 To perform the TargetedKerberoast we will use the following tool:
 
-[![Logo](<../../../.gitbook/assets/image (208)>)GitHub - ShutdownRepo/targetedKerberoast: Kerberoast with ACL abuse capabilitiesGitHubchevron-right](https://github.com/ShutdownRepo/targetedKerberoast)
+[![Logo](<../../../.gitbook/assets/image (39)>)GitHub - ShutdownRepo/targetedKerberoast: Kerberoast with ACL abuse capabilitiesGitHubchevron-right](https://github.com/ShutdownRepo/targetedKerberoast)
 
 We run the following command and are able to get the Kerberos 5, etype 23, TGS-REP blob of the `tom.reboot` user.
 
@@ -256,11 +256,11 @@ The following Section descirbes the Shadow Credentials Attack it's an alternativ
 
 Further information on the Shadow Credentials Attack can be found under the following link:
 
-[![Logo](<../../../.gitbook/assets/image (217)>)Shadow Credentials | The Hacker Recipeswww.thehacker.recipeschevron-right](https://www.thehacker.recipes/ad/movement/kerberos/shadow-credentials#shadow-credentials)
+[![Logo](<../../../.gitbook/assets/image (33)>)Shadow Credentials | The Hacker Recipeswww.thehacker.recipeschevron-right](https://www.thehacker.recipes/ad/movement/kerberos/shadow-credentials#shadow-credentials)
 
 To perform the Shadow Credentials Attack we are using Certipy.
 
-[![Logo](<../../../.gitbook/assets/image (208)>)GitHub - ly4k/Certipy: Tool for Active Directory Certificate Services enumeration and abuseGitHubchevron-right](https://github.com/ly4k/Certipy?tab=readme-ov-file#shadow-credentials)
+[![Logo](<../../../.gitbook/assets/image (39)>)GitHub - ly4k/Certipy: Tool for Active Directory Certificate Services enumeration and abuseGitHubchevron-right](https://github.com/ly4k/Certipy?tab=readme-ov-file#shadow-credentials)
 
 In short: If we can write to the msDS-KeyCredentialLink property of a user, we can retrieve the NT hash of that user.
 
@@ -288,11 +288,11 @@ nxc ldap 404finance.local -u tom.reboot -H 'REDACTED'
 
 From our Bloodhound analysis we know that `tom.reboot` has a `GenericWrite` relationship to `robert.graef`. This allows us to change the password of the user. The following resource showcases the different tools we could use to change the password of the user.
 
-[![Logo](<../../../.gitbook/assets/image (217)>)ForceChangePassword | The Hacker Recipeswww.thehacker.recipeschevron-right](https://www.thehacker.recipes/ad/movement/dacl/forcechangepassword#forcechangepassword)
+[![Logo](<../../../.gitbook/assets/image (33)>)ForceChangePassword | The Hacker Recipeswww.thehacker.recipeschevron-right](https://www.thehacker.recipes/ad/movement/dacl/forcechangepassword#forcechangepassword)
 
 We will be using bloodyAD.
 
-[![Logo](<../../../.gitbook/assets/image (208)>)GitHub - CravateRouge/bloodyAD: BloodyAD is an Active Directory Privilege Escalation FrameworkGitHubchevron-right](https://github.com/CravateRouge/bloodyAD)
+[![Logo](<../../../.gitbook/assets/image (39)>)GitHub - CravateRouge/bloodyAD: BloodyAD is an Active Directory Privilege Escalation FrameworkGitHubchevron-right](https://github.com/CravateRouge/bloodyAD)
 
 Copy
 
@@ -324,7 +324,7 @@ nxc smb 404finance.local -u robert.graef -p 'Pwned123@!' --shares
 
 From `robert.graef`, we can `ForceChangePassword` on `nina.inkasso`, `melanie.kunz`, and `jan.tresor`. For now we will focus only on `jan.tresor` as thats the user having some valubale loot for us later.
 
-[![Logo](<../../../.gitbook/assets/image (217)>)ForceChangePassword | The Hacker Recipeswww.thehacker.recipeschevron-right](https://www.thehacker.recipes/ad/movement/dacl/forcechangepassword#forcechangepassword)
+[![Logo](<../../../.gitbook/assets/image (33)>)ForceChangePassword | The Hacker Recipeswww.thehacker.recipeschevron-right](https://www.thehacker.recipes/ad/movement/dacl/forcechangepassword#forcechangepassword)
 
 With the following command we change the password for `jan.tresor` to `Pwned123@!`.
 
@@ -348,7 +348,7 @@ nxc smb 404finance.local -u jan.tresor -p 'Pwned123@!' --shares
 
 However, the user `jan.tresor` is not in the `Remote Desktop Users` group. That doesn't matter, because as `robert.graef` we can add users to this group thanks to the `AddMember` permission. We did this for all users in order to check for each initial access whether there was anything to be gained. However, we only found something with `jan.tresor`. To add a member to the group `Remote Desktop Users` we use also bloodyAD.
 
-[![Logo](<../../../.gitbook/assets/image (217)>)AddMember | The Hacker Recipeswww.thehacker.recipeschevron-right](https://www.thehacker.recipes/ad/movement/dacl/addmember#addmember)
+[![Logo](<../../../.gitbook/assets/image (33)>)AddMember | The Hacker Recipeswww.thehacker.recipeschevron-right](https://www.thehacker.recipes/ad/movement/dacl/addmember#addmember)
 
 Copy
 
@@ -424,7 +424,7 @@ We try to request it in the session using the curl alias, but we have to authent
 
 We will be using the latest release `v0.8.2`:
 
-[![Logo](<../../../.gitbook/assets/image (208)>)GitHub - nicocha30/ligolo-ng: An advanced, yet simple, tunneling/pivoting tool that uses a TUN interface.GitHubchevron-right](https://github.com/nicocha30/ligolo-ng)
+[![Logo](<../../../.gitbook/assets/image (39)>)GitHub - nicocha30/ligolo-ng: An advanced, yet simple, tunneling/pivoting tool that uses a TUN interface.GitHubchevron-right](https://github.com/nicocha30/ligolo-ng)
 
 First, we run a proxy.
 
@@ -606,7 +606,7 @@ He also showed me his version, which he forked to implement additional features 
 
 We enable the account like the following using bloodyAD.
 
-[![Logo](<../../../.gitbook/assets/image (208)>)User GuideGitHubchevron-right](https://github.com/CravateRouge/bloodyAD/wiki/User-Guide#remove-uac)
+[![Logo](<../../../.gitbook/assets/image (39)>)User GuideGitHubchevron-right](https://github.com/CravateRouge/bloodyAD/wiki/User-Guide#remove-uac)
 
 Copy
 
@@ -770,7 +770,7 @@ Vuln-ESC4
 
 We can follow the guide of certipys wiki if we are using the current version 5.0.2:
 
-[![Logo](<../../../.gitbook/assets/image (208)>)06 ‐ Privilege EscalationGitHubchevron-right](https://github.com/ly4k/Certipy/wiki/06-%E2%80%90-Privilege-Escalation#esc4-template-hijacking)
+[![Logo](<../../../.gitbook/assets/image (39)>)06 ‐ Privilege EscalationGitHubchevron-right](https://github.com/ly4k/Certipy/wiki/06-%E2%80%90-Privilege-Escalation#esc4-template-hijacking)
 
 > **Step 1: Modify the template to a vulnerable state.** Certipy's `template` command with the `-write-default-configuration` option is a convenient way to automatically reconfigure a target template to a known ESC1-like vulnerable state. This option typically:
 >
