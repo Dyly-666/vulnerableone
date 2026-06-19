@@ -11,7 +11,7 @@ metaLinks:
 
 # Unconstrained Delegation
 
-<figure><img src="../../../.gitbook/assets/image (22).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/Screenshot 2026-06-19 at 1.17.31 in the afternoon.png" alt=""><figcaption></figcaption></figure>
 
 For an account to have an unconstrained delegation, on the `Delegation` tab of the account, the `Trust this computer for delegation to any service (Kerberos only)` option must be selected.
 
