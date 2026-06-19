@@ -17,6 +17,31 @@ For an account to have an unconstrained delegation, on the `Delegation` tab of t
 
 ## ![](<../../../.gitbook/assets/image (23).png>)
 
+#### What actually happens on the wire
+
+Once <mark style="color:$danger;">`TRUSTED_FOR_DELEGATION`</mark> is set on a service account:
+
+```
+Example
+
+Suppose FILE01 needs to access SQL01 for Alice.
+##Without delegation:
+FILE01 cannot authenticate as Alice
+
+##With unconstrained delegation:
+FILE01 has Alice's TGT
+So FILE01 can ask the DC:
+"Give me a ticket to SQL01 as Alice"
+
+##The DC says:
+Sure.
+
+FILE01 gets a new service ticket and connects to SQL01 as Alice.
+FILE01 --> SQL01
+         (as Alice)
+This is called delegation.
+```
+
 ## Abuse from Windows System
 
 First we have to compromised Web Server or Unconstrained Delegation System.
