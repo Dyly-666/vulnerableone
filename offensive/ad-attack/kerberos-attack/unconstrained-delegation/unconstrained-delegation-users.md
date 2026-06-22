@@ -92,7 +92,16 @@ WhiteBeardx9999@htb[/htb]$ python addspn.py -u inlanefreight.local\\pixis -p p4s
 ```
 {% endcode %}
 
-**Using Krbrelayx**
+**Using Krbrelayx**&#x20;
+
+Hashes of user sqldev
+
+{% code overflow="wrap" %}
+```bash
+## To generate hashes
+iconv -f ASCII -t UTF-16LE <(printf "C@lluMDIXON") | openssl dgst -md4
+```
+{% endcode %}
 
 {% code overflow="wrap" %}
 ```bash
