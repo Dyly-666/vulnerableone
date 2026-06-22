@@ -11,11 +11,11 @@ metaLinks:
 
 # Unconstrained Delegation
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2026-06-19 at 1.17.31 in the afternoon.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/Screenshot 2026-06-19 at 1.17.31 in the afternoon.png" alt=""><figcaption></figcaption></figure>
 
 For an account to have an unconstrained delegation, on the `Delegation` tab of the account, the `Trust this computer for delegation to any service (Kerberos only)` option must be selected.
 
-## ![](<../../../.gitbook/assets/image (23).png>)
+## ![](<../../../../.gitbook/assets/image (23).png>)
 
 #### What actually happens on the wire
 
@@ -46,7 +46,7 @@ This is called delegation.
 
 First we have to compromised Web Server or Unconstrained Delegation System.
 
-<figure><img src="../../../.gitbook/assets/image (223).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (223).png" alt=""><figcaption></figcaption></figure>
 
 ### Verify Print Spooler
 
