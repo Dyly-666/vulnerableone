@@ -106,7 +106,7 @@ GetUserSPNs.py -dc-ip 10.129.15.xx -request-user mark.davies 'checkpoint.htb/ale
 
 The $krb5tgs$18$ hash uses AES encryption, which is too strong to crack efficiently. We need to set SupportedEncryptionTypes to 4 (RC4) and request a new TGS ticket
 
-<figure><img src="../../../.gitbook/assets/image (21).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (21).png" alt=""><figcaption></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```bash
