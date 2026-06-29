@@ -180,6 +180,7 @@
       * [Silver Ticket](offensive-treasure/red-team/credential-access/steal-or-forge-kerberos-tickets/silver-ticket.md)
       * [Golden Ticket](offensive-treasure/red-team/credential-access/steal-or-forge-kerberos-tickets/golden-ticket.md)
     * [Steal Web Session Cookie](offensive-treasure/red-team/credential-access/steal-web-session-cookie.md)
+    * [Steal Browser Data](offensive/red-team/credential-access/steal-browser-data.md)
   * [Lateral Movement](offensive-treasure/red-team/lateral-movement/README.md)
     * [Remote Access](offensive-treasure/red-team/lateral-movement/remote-access.md)
     * [Pivoting](offensive-treasure/red-team/lateral-movement/pivoting/README.md)
