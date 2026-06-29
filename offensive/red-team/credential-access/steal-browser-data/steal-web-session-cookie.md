@@ -55,4 +55,4 @@ C:\> SharpChrome.exe cookies /format:json /showall
 
 If we compromised cookies data, we can import in cookie editor and refreshing the page
 
-<figure><img src="../../../.gitbook/assets/image (916).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (916).png" alt=""><figcaption></figcaption></figure>
