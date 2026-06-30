@@ -7,6 +7,64 @@ metaLinks:
 
 # Linux
 
+## Ligolo-NG
+
+### **single pivot**
+
+{% code overflow="wrap" %}
+```bash
+./proxy -selfcert -laddr 0.0.0.0:11601
+```
+{% endcode %}
+
+<pre class="language-bash" data-overflow="wrap"><code class="lang-bash"><strong>## Delete it first if we have it open 
+</strong><strong>sudo ip tuntap del dev ligolo mode tun
+</strong><strong>## Then run
+</strong>sudo ip tuntap add dev ligolo mode tun user stututu 
+sudo ip link set ligolo up 
+## IP range that we want to pivot
+sudo ip route add 192.168.110.0/24 dev ligolo
+</code></pre>
+
+On target machine
+
+{% code overflow="wrap" %}
+```bash
+./agent -connect tun0:11601 -ignore-cert
+```
+{% endcode %}
+
+<figure><img src="../../../.gitbook/assets/Screenshot 2026-06-30 at 3.50.31 in the afternoon.png" alt=""><figcaption></figcaption></figure>
+
+### **Double pivot**
+
+{% code overflow="wrap" %}
+```bash
+sudo ip tuntap del dev ligolo-2 mode tun 
+sudo ip tuntap add dev ligolo-2 mode tun user stututu 
+sudo ip link set ligolo-2 up 
+sudo ip route add 172.16.1.0/24 dev ligolo-2
+```
+{% endcode %}
+
+add this inside ligolo-ng
+
+{% code overflow="wrap" %}
+```bash
+listener_add --addr 0.0.0.0:11000 --to 127.0.0.1:11601 --tcp
+```
+{% endcode %}
+
+<figure><img src="../../../.gitbook/assets/Screenshot 2026-06-30 at 3.54.30 in the afternoon.png" alt=""><figcaption></figcaption></figure>
+
+{% code overflow="wrap" %}
+```bash
+./agent.exe -connect <first hop IP>:11601 -ignore-cert
+```
+{% endcode %}
+
+
+
 ### Ligolo-MP
 
 Started a Ligolo-MP server listener on port 11601.
@@ -19,7 +77,7 @@ sudo ligolo-mp server -laddr 0.0.0.0:11601
 
 Push Enter/Connect
 
-<figure><img src="../../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```
@@ -31,11 +89,11 @@ Then Submit
 ```
 {% endcode %}
 
-<figure><img src="../../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 The tool create agent.bin File
 
-<figure><img src="../../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 Move to exe
 
@@ -57,17 +115,17 @@ Start-Process .\agent.exe -WindowStyle Hidden
 
 Then we see in ligolo that we got a Session
 
-<figure><img src="../../../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 **Push Enter Add route**
 
-<figure><img src="../../../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
 We add the Route 192.168.2.0/24
 
-<figure><img src="../../../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../../../../.gitbook/assets/image (20).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (20).png" alt=""><figcaption></figcaption></figure>
 
 ### Local Port Forwarding
 
@@ -128,4 +186,4 @@ proxytunnel -p $ip:3128 -d 127.0.0.1:22 -a 4444
 ssh john@127.0.0.1 -p 4444
 ```
 
-<figure><img src="../../../../.gitbook/assets/image (685).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (685).png" alt=""><figcaption></figcaption></figure>
