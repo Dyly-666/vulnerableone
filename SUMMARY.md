@@ -208,3 +208,4 @@
     * [404 Bank | Writeups](offensive/nothing/writeups/404-bank-or-writeups.md)
     * [City Council | Writeups](offensive/nothing/writeups/city-council-or-writeups.md)
     * [StellarComms | Writeups](offensive/nothing/writeups/stellarcomms-or-writeups.md)
+    * [Staged | Writeups](offensive/nothing/writeups/staged-or-writeups.md)
