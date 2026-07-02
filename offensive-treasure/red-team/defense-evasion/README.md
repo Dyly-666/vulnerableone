@@ -68,6 +68,9 @@ RealTimeProtectionEnabled
 # Powershell
 Set-MpPreference -DisableRealtimeMonitoring $true
 
+# 📁 Add folder exclusion
+Add-MpPreference -ExclusionPath "C:\Temp"
+
 # CMD
 cmd.exe /c "C:\Program Files\Windows Defender\MpCmdRun.exe" -RemoveDefinitions -All
 
