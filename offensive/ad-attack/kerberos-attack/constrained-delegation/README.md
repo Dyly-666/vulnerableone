@@ -11,11 +11,11 @@ Constrained delegation is configured on the **computer** or **user** object. It 
 
 In this example, `WEBSRV` can only relay authentication to the `SQL/DBSRV` service but not to the others.
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2026-06-19 at 1.18.04 in the afternoon.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/Screenshot 2026-06-19 at 1.18.04 in the afternoon.png" alt=""><figcaption></figcaption></figure>
 
 A constrained delegation can be configured in the same place as an unconstrained delegation in the `Delegation` tab of the service account. The `Trust this computer for delegation to specified services only` option should be chosen. We will explain the choice between `Kerberos Only` and `Use any authentication protocol` later.
 
-![](<../../../.gitbook/assets/image (1).png>)<br>
+![](<../../../../.gitbook/assets/image (1).png>)<br>
 
 ##
 
