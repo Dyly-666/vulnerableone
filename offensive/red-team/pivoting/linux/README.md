@@ -34,7 +34,7 @@ On target machine
 ```
 {% endcode %}
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2026-06-30 at 3.50.31 in the afternoon.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/Screenshot 2026-06-30 at 3.50.31 in the afternoon.png" alt=""><figcaption></figcaption></figure>
 
 ### **Double pivot**
 
@@ -55,7 +55,7 @@ listener_add --addr 0.0.0.0:11000 --to 127.0.0.1:11601 --tcp
 ```
 {% endcode %}
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2026-06-30 at 3.54.30 in the afternoon.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/Screenshot 2026-06-30 at 3.54.30 in the afternoon.png" alt=""><figcaption></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```bash
@@ -64,68 +64,6 @@ listener_add --addr 0.0.0.0:11000 --to 127.0.0.1:11601 --tcp
 {% endcode %}
 
 
-
-### Ligolo-MP
-
-Started a Ligolo-MP server listener on port 11601.
-
-{% code overflow="wrap" %}
-```bash
-sudo ligolo-mp server -laddr 0.0.0.0:11601
-```
-{% endcode %}
-
-Push Enter/Connect
-
-<figure><img src="../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
-
-{% code overflow="wrap" %}
-```
-Push CTRL+N to create new Agent (use TAB for switch to new Linie)
-Use you tun0 IP
-Activate Ignore env proxy
-OS= Windwos ARCH=amd64
-Then Submit
-```
-{% endcode %}
-
-<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
-
-The tool create agent.bin File
-
-<figure><img src="../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
-
-Move to exe
-
-{% code overflow="wrap" %}
-```
-mv agent.bin agent.exe
-```
-{% endcode %}
-
-We Upload agent.exe (in our evil-winrm session)
-
-We start agent.exe (in background)
-
-{% code overflow="wrap" %}
-```bash
-Start-Process .\agent.exe -WindowStyle Hidden
-```
-{% endcode %}
-
-Then we see in ligolo that we got a Session
-
-<figure><img src="../../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
-
-**Push Enter Add route**
-
-<figure><img src="../../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
-
-We add the Route 192.168.2.0/24
-
-<figure><img src="../../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
-
-<figure><img src="../../../.gitbook/assets/image (20).png" alt=""><figcaption></figcaption></figure>
 
 ### Local Port Forwarding
 
@@ -186,4 +124,4 @@ proxytunnel -p $ip:3128 -d 127.0.0.1:22 -a 4444
 ssh john@127.0.0.1 -p 4444
 ```
 
-<figure><img src="../../../.gitbook/assets/image (685).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (685).png" alt=""><figcaption></figcaption></figure>
