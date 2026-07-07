@@ -10,20 +10,49 @@ metaLinks:
 Login with Windows-Auth
 
 ```python
-└─$ impacket-mssqlclient vulnableone.local/khan.chanthou@10.10.10.10 -windows-auth
+## Window Auth
+impacket-mssqlclient vulnableone.local/khan.chanthou@10.10.10.10 -windows-auth
+
+impacket-mssqlclient 'nodered_connector:DreamPuppyOverall25@192.168.50.12'
 ```
 
-## \`\`\`
+#### Database Enumeration <a href="#database-enumeration" id="database-enumeration"></a>
 
+```bash
+SQL (nodered_connector  nodered_connector@Dev)> enum_db
+name     is_trustworthy_on   
+------   -----------------   
+master                   0   
+tempdb                   0   
+model                    0   
+msdb                     1   
+Demo                     0   
+Dev                      0 
 ```
-# Show DB
-SQL (GRANDSTAY\michael.brown  guest@master)> enum_db
-# Use DB
-SQL (GRANDSTAY\michael.brown  guest@master)> use GRANDSTAY;
-# Get Information
-SQL (<SNIP>)> select * from IT_Information;
 
+Switching to the Demo database:
+
+{% code overflow="wrap" %}
+```bash
+SQL (nodered_connector  nodered_connector@Demo)> SELECT TABLE_SCHEMA, TABLE_NAME FROM INFORMATION_SCHEMA.TABLES;
+TABLE_SCHEMA   TABLE_NAME   
+------------   ----------   
+dbo            Users   
 ```
+{% endcode %}
+
+Extracting user data:<i class="fa-regular">:regular:</i>
+
+{% code overflow="wrap" %}
+```bash
+SQL (nodered_connector  nodered_connector@Demo)> SELECT * FROM users;
+  ID   Username          Password                                                              
+----   ---------------   -------------------------------------------------------------------   
+NULL   b't2_m.winters'   b'af9cfa9b7--------------------599abf31dd4bb2a11dc20678ea147'
+```
+{% endcode %}
+
+<i class="fa-regular">:regular:</i>
 
 ## First Instance
 
