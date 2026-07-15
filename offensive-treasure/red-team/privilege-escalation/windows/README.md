@@ -10,6 +10,7 @@ metaLinks:
 ### Automate Enumeration Tools
 
 ```basic
+PrivescCheck -  https://github.com/itm4n/PrivescCheck.git
 Seatbelt -  https://github.com/GhostPack/Seatbelt
 SharpUp -  https://github.com/GhostPack/SharpUp
 Nishang - https://github.com/samratashok/nishang.git
@@ -18,6 +19,16 @@ WinPEAS -  https://github.com/carlospolop/privilege-escalation-awesome-scripts-s
 Sherlock -  https://github.com/rasta-mouse/Sherlock
 Watson -  https://github.com/rasta-mouse/Watson
 ```
+
+### Automate with PriveseCheck
+
+{% code overflow="wrap" %}
+```bash
+git clone https://github.com/itm4n/PrivescCheck.git
+## Upload it into target and run 
+powershell -ep bypass -c ". .\PrivescCheck.ps1; Invoke-PrivescCheck -Report PrivescCheck_$($env:COMPUTERNAME) -Format TXT,HTML"
+```
+{% endcode %}
 
 ### Service Enumeration
 
@@ -188,3 +199,4 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config\web.config
 
 type C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config\web.config | findstr connectionString
 ```
+
