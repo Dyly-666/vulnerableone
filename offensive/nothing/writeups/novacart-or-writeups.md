@@ -38,9 +38,9 @@ rustscan -b 500 -a novacart.hsm --top -- -sC -sV -Pn
 
 The target `10.0.20.22` is a Windows-based Domain Controller. It hosts a Microsoft IIS 10.0 web server on port `80` (serving the "NovaCart | Premium PC Components & Gaming Systems" site), as well as an additional web service on port `5000` (IIS, NTLM-authenticated). DNS is exposed on port `53` and Kerberos on port `88`, confirming the host's role as an Active Directory DC for the domain `novacart.local`. LDAP and LDAPS services are available on ports `389`, `636`, `3268`, and `3269`. SMB is exposed via ports `139` and `445` with message signing enabled and required. Remote management and access are available through RDP on port `3389` and WinRM on port `5985`. The host also exposes a .NET Message Framing service on port `9389`, RPC over HTTP on ports `593` and `49676`, and several MSRPC endpoints on ports `135`, `49664`, `49665`, `49666`, `49667`, `49668`, `49673`, `49677`, `49696`, `49703`, and `49719`.
 
-![](<../../../.gitbook/assets/image (1) (1)>)
+![](<../../../.gitbook/assets/image (1) (1) (1)>)
 
-![](<../../../.gitbook/assets/image (2) (1)>)
+![](<../../../.gitbook/assets/image (2) (1) (1)>)
 
 #### [hashtag](novacart-or-writeups.md#http-80) HTTP 80
 

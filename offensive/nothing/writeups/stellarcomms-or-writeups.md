@@ -40,13 +40,13 @@ Copy
 rustscan -b 500 -a 10.1.129.141 -- -sC -sV -Pn
 ```
 
-![](../../../.gitbook/assets/image)
+![](<../../../.gitbook/assets/image (2)>)
 
 The `stellarcomms` machine is actually a domain controller with exposed services including FTP `21` allowing anonymour login, DNS `53`, Kerberos `88/464`, an `IIS /10.0` web server on port `80`, multiple MSRPC endpoints `135, 593, 49664+`, SMB `139/445`, LDAP and LDAPS `389/636/3268/3269` tied to Active Directory, RDP `3389`, and .NET Remoting `9389`. This indicates a fully integrated Windows AD environment where LDAP/LDAPS and Kerberos provide authentication, SMB and RPC enable remote management, and RDP/WinRM serve as remote access points.
 
-![](<../../../.gitbook/assets/image (1)>)
+![](<../../../.gitbook/assets/image (1) (1)>)
 
-![](<../../../.gitbook/assets/image (2)>)
+![](<../../../.gitbook/assets/image (2) (1)>)
 
 #### [hashtag](stellarcomms-or-writeups.md#ftp) FTP
 
