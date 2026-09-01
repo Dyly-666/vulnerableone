@@ -169,6 +169,7 @@
   * [Defense Evasion](offensive-treasure/red-team/defense-evasion/README.md)
     * [Bypassing AV](offensive-treasure/red-team/defense-evasion/bypassing-av/README.md)
       * [Pack Shellcode](offensive-treasure/red-team/defense-evasion/bypassing-av/pack-shellcode.md)
+      * [Bypass WinDef](offensive/red-team/defense-evasion/bypassing-av/bypass-windef.md)
     * [Security Control](offensive-treasure/red-team/defense-evasion/security-control/README.md)
       * [CLM](offensive-treasure/red-team/defense-evasion/security-control/clm.md)
       * [AppLocker](offensive-treasure/red-team/defense-evasion/security-control/applocker.md)
